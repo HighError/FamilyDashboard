@@ -1,3 +1,10 @@
+import { useSession } from "next-auth/react";
+
 export default function Home() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  const { data } = useSession();
+  return (
+    <div className="flex items-center justify-center">
+      {data?.user?.email ?? "no"}
+    </div>
+  );
 }
