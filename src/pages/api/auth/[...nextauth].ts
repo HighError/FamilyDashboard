@@ -1,11 +1,19 @@
-import NextAuth, { AuthOptions } from "next-auth";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
+import NextAuth, { AuthOptions } from "next-auth";
+import User from "@/model/User";
+import bcrypt from "bcrypt";
+import { uid } from "uid";
+
+import { User as UserType } from "@/types/User";
 import clientPromise from "@/lib/mongodb";
 import dbConnect from "@/lib/dbconnect";
-import { User as UserType } from "types/User";
-import User from "model/User";
-import bcrypt from "bcrypt";
+
+interface UserAuthData {
+  email: string;
+  id: string;
+  verifyToken: string;
+}
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -23,18 +31,19 @@ export const authOptions: AuthOptions = {
         },
       },
       async authorize(credentials) {
+        console.log(credentials);
         await dbConnect();
 
         if (!credentials) {
           throw new Error("Need credentials");
         }
 
-        const user = await User.findOne({
+        const user: UserType | null = await User.findOne({
           username: credentials.username,
         }).select("+password");
 
         if (!user) {
-          throw new Error("Email not found");
+          throw new Error("ERR_INVALID_LOGIN_OR_PASSWORD");
         }
 
         const matchPassword = await bcrypt.compare(
@@ -43,10 +52,20 @@ export const authOptions: AuthOptions = {
         );
 
         if (!matchPassword) {
-          throw new Error("Passwword incorrect");
+          throw new Error("ERR_INVALID_LOGIN_OR_PASSWORD");
         }
 
-        return await User.findOne(user);
+        const token: string = uid(32);
+
+        user.tokens.push(token);
+
+        await user.save();
+
+        return {
+          id: user._id,
+          email: user.email,
+          token: token,
+        };
       },
     }),
   ],
@@ -56,7 +75,7 @@ export const authOptions: AuthOptions = {
       return token;
     },
     session: async ({ session, token }) => {
-      session.user = token.user as UserType;
+      session.user = token.user as UserAuthData;
       return session;
     },
   },

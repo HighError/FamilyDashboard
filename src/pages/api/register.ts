@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 
 import dbConnect from "@/lib/dbconnect";
-import User from "model/User";
+import User from "@/model/User";
 
 interface ResponseData {
   error?: string;

@@ -51,6 +51,7 @@ const userSchema = new Schema({
     type: String,
     default: "",
   },
+  tokens: [String],
 });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);

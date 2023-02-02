@@ -48,12 +48,14 @@ const Login: NextPage = () => {
           redirect: false,
         });
 
+        console.log(res);
+
         if (!res) {
           throw new Error();
         }
 
-        if (res.status === 401) {
-          throw new Error("ERR_INVALID_LOGIN_OR_PASSWORD");
+        if (res.error) {
+          throw new Error(res.error);
         }
         toast.success("Ви успішно зареєструвались та увійшли!");
         Router.push("/");
