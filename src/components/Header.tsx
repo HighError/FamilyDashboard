@@ -4,6 +4,8 @@ import { faBars, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext } from 'react';
 import { SidebarContent } from '@/context/SidebarContext';
+import { UserContext } from '@/context/UserContext';
+import md5 from 'md5';
 
 interface IProps {
   title: string;
@@ -12,6 +14,11 @@ interface IProps {
 
 function Header({ title, subtitle }: IProps) {
   const { updateShowSidebar } = useContext(SidebarContent);
+  const { user } = useContext(UserContext);
+
+  if (!user) {
+    return <></>;
+  }
   return (
     <div className="flex flex-col mb-5 justify-center tablet:flex-row tablet:justify-between">
       <div className="flex flex-row items-center gap-6 mb-3 tablet:mb-0">
@@ -29,13 +36,13 @@ function Header({ title, subtitle }: IProps) {
       </div>
       <div className="bg-gray-200 px-4 py-3 flex flex-row items-center justify-between tablet:justify-center rounded-xl">
         <Image
-          src="https://www.gravatar.com/avatar/0"
+          src={`https://www.gravatar.com/avatar/${md5(user.email)}`}
           alt="avatar"
           width={48}
           height={48}
           className="rounded-full w-12 h-12 mr-4"
         />
-        <div>Username</div>
+        <div>{user.username}</div>
         <div
           role="menuitem"
           className="text-xl p-2 hover:text-primary-200 duration-300 cursor-pointer ml-2"

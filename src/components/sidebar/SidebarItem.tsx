@@ -27,7 +27,7 @@ function Sidebar({ icon, title, route }: IProps) {
         router.replace(route);
       }}
     >
-      <div className="text-xl">
+      <div className="text-xl w-7 flex items-center justify-center">
         <FontAwesomeIcon icon={icon} />
       </div>
       <div className="text-lg">{title}</div>

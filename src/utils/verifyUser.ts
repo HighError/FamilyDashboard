@@ -1,4 +1,5 @@
 import HttpError from '@/classes/HttpError';
+import User, { IUser } from '@/model/User';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { UserAuthData } from '@/types/UserAuthData';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -18,7 +19,14 @@ export default async function verifyUser(
     throw new HttpError(401, 'ERR_NEED_AUTHORIZATION');
   }
 
-  console.log(id);
+  const user: IUser | null = await User.findById(id);
+  if (!user) {
+    throw new HttpError(401, 'ERR_NEED_AUTHORIZATION');
+  }
+
+  if (!user.tokens.includes(token)) {
+    throw new HttpError(401, 'ERR_NEED_AUTHORIZATION');
+  }
 
   return id;
 }

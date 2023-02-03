@@ -55,7 +55,7 @@ const Login: NextPage = () => {
         if (res.error) {
           throw new Error(res.error);
         }
-        toast.success('Ви успішно зареєструвались та увійшли!');
+        toast.success('Ви успішно увійшли!');
         Router.push('/');
       } catch (err) {
         ShowErrorMessage(err);

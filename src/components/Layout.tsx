@@ -1,5 +1,8 @@
-import { ReactNode } from 'react';
+import { UserContext } from '@/context/UserContext';
+import { useRouter } from 'next/router';
+import { ReactNode, useContext } from 'react';
 import Header from './Header';
+import Loading from './Loading';
 import Sidebar from './sidebar/Sidebar';
 
 interface IProps {
@@ -9,6 +12,15 @@ interface IProps {
 }
 
 function Layout({ title, subtitle, children }: IProps) {
+  const router = useRouter();
+  const { user, isLoading } = useContext(UserContext);
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (!user) {
+    router.replace('/login');
+    return <div />;
+  }
   return (
     <div>
       <div className="flex flex-col items-center justify-center min-h-full py-2">

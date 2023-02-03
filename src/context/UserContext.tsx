@@ -1,31 +1,59 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import { signOut, useSession } from 'next-auth/react';
+import axios, { AxiosError } from 'axios';
+import { IUser } from '@/model/User';
 
 interface IProps {
   children: ReactNode;
 }
 
 interface IUserContext {
-  user?: string | null;
-  //   setUser?: (value: UserType | null) => void;
+  user?: IUser;
+  isLoading: boolean;
 }
 
-export const UserContext = createContext<IUserContext>({});
+export const UserContext = createContext<IUserContext>({ isLoading: true });
 
 function UserProvider({ children }: IProps) {
   const { status } = useSession();
-  const [user, setUser] = useState<string | null>('');
+  const [user, setUser] = useState<IUser | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {
+  const updateUser = useCallback(async () => {
+    setIsLoading(true);
     if (status !== 'authenticated') {
-      setUser(null);
+      setUser(undefined);
     } else {
-      setUser('ok!');
+      try {
+        const { data } = await axios.get('/api/user/');
+        setUser(data);
+      } catch (err) {
+        if (
+          err instanceof AxiosError &&
+          err.response &&
+          err.response.status === 401
+        ) {
+          signOut();
+        }
+      }
     }
+    setIsLoading(false);
   }, [status]);
 
+  useEffect(() => {
+    updateUser();
+  }, [status, updateUser]);
+
   return (
-    <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ user, isLoading }}>
+      {children}
+    </UserContext.Provider>
   );
 }
 

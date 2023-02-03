@@ -8,7 +8,6 @@ import User from '@/model/User';
 import dbConnect from '@/lib/dbconnect';
 import clientPromise from '@/lib/mongodb';
 import { UserAuthData } from '@/types/UserAuthData';
-import { User as UserType } from '@/types/User';
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -26,14 +25,13 @@ export const authOptions: AuthOptions = {
         },
       },
       async authorize(credentials) {
-        console.log(credentials);
         await dbConnect();
 
         if (!credentials) {
           throw new Error('Need credentials');
         }
 
-        const user: UserType | null = await User.findOne({
+        const user = await User.findOne({
           username: credentials.username,
         }).select('+password');
 
@@ -43,7 +41,7 @@ export const authOptions: AuthOptions = {
 
         const matchPassword = await bcrypt.compare(
           credentials.password,
-          user.password
+          user.password ?? ''
         );
 
         if (!matchPassword) {

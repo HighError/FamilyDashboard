@@ -1,8 +1,20 @@
-import mongoose from "mongoose";
+import { model, Schema, Document, models } from 'mongoose';
+import { ITransaction } from './Transaction';
 
-const { Schema } = mongoose;
+export interface IUser extends Document {
+  username: string;
+  email: string;
+  password?: string;
+  balance: number;
+  subscriptions: [];
+  transactions: ITransaction[];
+  role: 'default' | 'admin' | 'unknown';
+  paymentLink: string;
+  telegram: string;
+  tokens: string[];
+}
 
-const userSchema = new Schema({
+export const userSchema: Schema = new Schema({
   username: {
     type: String,
     index: true,
@@ -29,30 +41,30 @@ const userSchema = new Schema({
   subscriptions: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Subscription",
+      ref: 'Subscription',
     },
   ],
   transactions: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Transaction",
+      ref: 'Transaction',
     },
   ],
   role: {
     type: String,
     required: true,
-    default: "default",
+    default: 'default',
   },
   paymentLink: {
     type: String,
-    default: "",
+    default: '',
   },
   telegram: {
     type: String,
-    default: "",
+    default: '',
   },
   tokens: [String],
 });
 
-const User = mongoose.models.User || mongoose.model("User", userSchema);
+const User = models.User || model<IUser>('User', userSchema);
 export default User;
