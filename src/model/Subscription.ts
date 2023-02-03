@@ -1,4 +1,4 @@
-import { model, Schema, Document } from 'mongoose';
+import { model, Schema, Document, models } from 'mongoose';
 
 export interface ISubscription extends Document {
   title: string;
@@ -27,5 +27,7 @@ const subscriptionSchema = new Schema({
   },
 });
 
-const Subscription = model<ISubscription>('Transaction', subscriptionSchema);
+const Subscription =
+  models.Subscription ||
+  model<ISubscription>('Transaction', subscriptionSchema);
 export default Subscription;

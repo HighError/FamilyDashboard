@@ -29,6 +29,10 @@ function GetErrorCodeMessage(code: string): string {
       return "Відсутні обов'язкові параметри";
     case 'ERR_OLD_PASSWORD_INVALID':
       return 'Невірний попередній пароль';
+    case 'ERR_TELEGRAM_ALREADY_LINKED':
+      return 'Телеграм уже приєднано до вашого профіля!';
+    case 'ERR_TELEGRAM_ALREADY_UNLINKED':
+      return "Телеграм уже від'єднано від вашого профіля!";
     default:
       return 'Невідома помилка!';
   }

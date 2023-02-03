@@ -1,4 +1,4 @@
-import { model, Schema, Document } from 'mongoose';
+import { model, Schema, Document, models } from 'mongoose';
 
 export interface ITransaction extends Document {
   title: string;
@@ -21,5 +21,6 @@ const transactionSchema = new Schema({
   },
 });
 
-const Transaction = model<ITransaction>('Transaction', transactionSchema);
+const Transaction =
+  models.Transaction || model<ITransaction>('Transaction', transactionSchema);
 export default Transaction;
