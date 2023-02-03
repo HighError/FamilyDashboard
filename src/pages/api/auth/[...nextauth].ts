@@ -1,33 +1,28 @@
-import CredentialsProvider from "next-auth/providers/credentials";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
-import NextAuth, { AuthOptions } from "next-auth";
-import User from "@/model/User";
-import bcrypt from "bcrypt";
-import { uid } from "uid";
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
+import NextAuth, { AuthOptions } from 'next-auth';
+import unidque from 'unidque';
+import bcrypt from 'bcrypt';
 
-import { User as UserType } from "@/types/User";
-import clientPromise from "@/lib/mongodb";
-import dbConnect from "@/lib/dbconnect";
-
-interface UserAuthData {
-  email: string;
-  id: string;
-  verifyToken: string;
-}
+import User from '@/model/User';
+import dbConnect from '@/lib/dbconnect';
+import clientPromise from '@/lib/mongodb';
+import { UserAuthData } from '@/types/UserAuthData';
+import { User as UserType } from '@/types/User';
 
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
-      id: "credentials",
-      name: "credentials",
+      id: 'credentials',
+      name: 'credentials',
       credentials: {
         username: {
-          label: "Username",
-          type: "text",
+          label: 'Username',
+          type: 'text',
         },
         password: {
-          label: "Password",
-          type: "text",
+          label: 'Password',
+          type: 'text',
         },
       },
       async authorize(credentials) {
@@ -35,15 +30,15 @@ export const authOptions: AuthOptions = {
         await dbConnect();
 
         if (!credentials) {
-          throw new Error("Need credentials");
+          throw new Error('Need credentials');
         }
 
         const user: UserType | null = await User.findOne({
           username: credentials.username,
-        }).select("+password");
+        }).select('+password');
 
         if (!user) {
-          throw new Error("ERR_INVALID_LOGIN_OR_PASSWORD");
+          throw new Error('ERR_INVALID_LOGIN_OR_PASSWORD');
         }
 
         const matchPassword = await bcrypt.compare(
@@ -52,10 +47,10 @@ export const authOptions: AuthOptions = {
         );
 
         if (!matchPassword) {
-          throw new Error("ERR_INVALID_LOGIN_OR_PASSWORD");
+          throw new Error('ERR_INVALID_LOGIN_OR_PASSWORD');
         }
 
-        const token: string = uid(32);
+        const token: string = unidque().toString();
 
         user.tokens.push(token);
 
@@ -69,6 +64,9 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
+  pages: {
+    signIn: '/login',
+  },
   callbacks: {
     jwt: async ({ token, user }) => {
       user && (token.user = user);
@@ -79,9 +77,9 @@ export const authOptions: AuthOptions = {
       return session;
     },
   },
-  debug: process.env.NODE_ENV === "development",
+  debug: process.env.NODE_ENV === 'development',
   adapter: MongoDBAdapter(clientPromise),
-  session: { strategy: "jwt" },
+  session: { strategy: 'jwt' },
   jwt: {
     secret: process.env.NEXTAUTH_JWT_SECRET,
     maxAge: 60 * 60 * 24 * 7,

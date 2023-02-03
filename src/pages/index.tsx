@@ -1,11 +1,28 @@
-import { useSession } from "next-auth/react";
+import Layout from '@/components/Layout';
+import { getSession, GetSessionParams } from 'next-auth/react';
+
+export async function getServerSideProps(
+  context: GetSessionParams | undefined
+) {
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+}
 
 export default function Home() {
-  const { data } = useSession();
-  console.log(data);
   return (
-    <div className="flex items-center justify-center">
-      {data?.user?.email ?? "no"}
-    </div>
+    <Layout title="Огляд" subtitle="З поверненням">
+      <div>123</div>
+    </Layout>
   );
 }

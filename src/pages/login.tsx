@@ -1,13 +1,13 @@
-import { NextPage } from "next";
-import { useState } from "react";
-import { useFormik } from "formik";
-import { toast } from "react-toastify";
-import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
-import { getSession, GetSessionParams, signIn } from "next-auth/react";
-import Router from "next/router";
+import { NextPage } from 'next';
+import { useState } from 'react';
+import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
+import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
+import { getSession, GetSessionParams, signIn } from 'next-auth/react';
+import Router from 'next/router';
 
-import AuthFormItem from "@/components/auth/AuthFormItem";
-import ShowErrorMessage from "@/utils/errorCode";
+import AuthFormItem from '@/components/auth/AuthFormItem';
+import ShowErrorMessage from '@/utils/errorCode';
 
 interface FormValue {
   username: string;
@@ -21,7 +21,7 @@ export async function getServerSideProps(
   if (session) {
     return {
       redirect: {
-        destination: "/",
+        destination: '/',
         permanent: false,
       },
     };
@@ -37,18 +37,16 @@ const Login: NextPage = () => {
 
   const form = useFormik<FormValue>({
     initialValues: {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
     },
     onSubmit: async (values) => {
       try {
-        const res = await signIn("credentials", {
+        const res = await signIn('credentials', {
           username: values.username,
           password: values.password,
           redirect: false,
         });
-
-        console.log(res);
 
         if (!res) {
           throw new Error();
@@ -57,8 +55,8 @@ const Login: NextPage = () => {
         if (res.error) {
           throw new Error(res.error);
         }
-        toast.success("Ви успішно зареєструвались та увійшли!");
-        Router.push("/");
+        toast.success('Ви успішно зареєструвались та увійшли!');
+        Router.push('/');
       } catch (err) {
         ShowErrorMessage(err);
       }
@@ -104,7 +102,7 @@ const Login: NextPage = () => {
             aria-hidden="true"
             role="status"
             className={`${
-              isLoading ? "inline" : "hidden"
+              isLoading ? 'inline' : 'hidden'
             } w-4 h-4 mr-3 animate-spin`}
             viewBox="0 0 100 101"
             fill="none"
@@ -119,7 +117,7 @@ const Login: NextPage = () => {
               fill="#5a4a78"
             />
           </svg>
-          {isLoading ? "Вхід..." : "Увійти"}
+          {isLoading ? 'Вхід...' : 'Увійти'}
         </button>
       </form>
     </div>
