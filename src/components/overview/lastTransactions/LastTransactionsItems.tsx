@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { GetForamtedDataAndTime } from '@/utils/dateConverters';
-import { convertTransactionSuma } from '@/utils/moneyConverter';
+import { ConvertTransactionSuma } from '@/utils/moneyConverter';
 
 interface IProps {
   title: string;
@@ -28,7 +28,7 @@ function LastTransactionsItems({ title, date, suma }: IProps) {
         </div>
       </div>
       <div className={suma > 0 ? 'text-lime' : 'text-red'}>
-        {convertTransactionSuma(suma)}
+        {ConvertTransactionSuma(suma)}
       </div>
     </div>
   );

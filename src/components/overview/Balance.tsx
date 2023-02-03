@@ -4,7 +4,7 @@ import { faWallet } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ModalType } from '@/types/Modal';
 import BalanceModal from '../modals/BalanceModal';
-import { convertBalance } from '@/utils/moneyConverter';
+import { ConvertBalance } from '@/utils/moneyConverter';
 
 function Balance() {
   const { user } = useContext(UserContext);
@@ -33,7 +33,7 @@ function Balance() {
               user.balance < 0 ? 'text-red' : 'text-white'
             }`}
           >
-            {convertBalance(user.balance)}
+            {ConvertBalance(user.balance)}
           </div>
         </div>
         <button

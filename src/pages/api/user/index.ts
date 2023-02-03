@@ -24,7 +24,6 @@ export default async function handler(
         return res.status(405).send('Only GET method allowed!');
     }
   } catch (err) {
-    console.log(err);
     if (err instanceof HttpError) {
       return res.status(err.code).send(err.message);
     }

@@ -2,18 +2,17 @@ import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import { faBars, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useContext } from 'react';
-import { SidebarContent } from '@/context/SidebarContext';
+import { Dispatch, SetStateAction, useContext } from 'react';
 import { UserContext } from '@/context/UserContext';
 import md5 from 'md5';
 
 interface IProps {
   title: string;
   subtitle: string;
+  setShowSidebar: Dispatch<SetStateAction<boolean>>;
 }
 
-function Header({ title, subtitle }: IProps) {
-  const { updateShowSidebar } = useContext(SidebarContent);
+function Header({ title, subtitle, setShowSidebar }: IProps) {
   const { user } = useContext(UserContext);
 
   if (!user) {
@@ -25,7 +24,7 @@ function Header({ title, subtitle }: IProps) {
         <button
           type="button"
           className="bg-primary-100 hover:bg-primary-200 duration-300 px-3 py-2 rounded-xl cursor-pointer select-none laptop:hidden"
-          onClick={() => updateShowSidebar(true)}
+          onClick={() => setShowSidebar(true)}
         >
           <FontAwesomeIcon icon={faBars} />
         </button>

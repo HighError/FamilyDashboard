@@ -1,6 +1,6 @@
 import { UserContext } from '@/context/UserContext';
 import { useRouter } from 'next/router';
-import { ReactNode, useContext } from 'react';
+import { Dispatch, ReactNode, SetStateAction, useContext } from 'react';
 import Header from './Header';
 import Loading from './Loading';
 import Sidebar from './sidebar/Sidebar';
@@ -9,9 +9,17 @@ interface IProps {
   title: string;
   subtitle: string;
   children: ReactNode;
+  showSidebar: boolean;
+  setShowSidebar: Dispatch<SetStateAction<boolean>>;
 }
 
-function Layout({ title, subtitle, children }: IProps) {
+function Layout({
+  title,
+  subtitle,
+  children,
+  showSidebar,
+  setShowSidebar,
+}: IProps) {
   const router = useRouter();
   const { user, isLoading } = useContext(UserContext);
   if (isLoading) {
@@ -24,10 +32,14 @@ function Layout({ title, subtitle, children }: IProps) {
   return (
     <div>
       <div className="flex flex-col items-center justify-center min-h-full py-2">
-        <Sidebar />
+        <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
       </div>
       <div className="laptop:ml-80 pl-3 laptop:pl-6 pr-3 gap-5 pb-5">
-        <Header title={title} subtitle={subtitle} />
+        <Header
+          title={title}
+          subtitle={subtitle}
+          setShowSidebar={setShowSidebar}
+        />
         <div>{children}</div>
       </div>
     </div>

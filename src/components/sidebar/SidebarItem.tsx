@@ -1,17 +1,18 @@
-import { SidebarContent } from '@/context/SidebarContext';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
-import { useContext } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 interface IProps {
   icon: IconProp;
   title: string;
   route: string;
+  setShowSidebar: Dispatch<SetStateAction<boolean>>;
 }
 
-function Sidebar({ icon, title, route }: IProps) {
-  const { updateShowSidebar } = useContext(SidebarContent);
+function Sidebar({ icon, title, route, setShowSidebar }: IProps) {
+  const { width } = useWindowDimensions();
   const { asPath } = useRouter();
   const router = useRouter();
   const active: boolean = asPath === route;
@@ -23,8 +24,8 @@ function Sidebar({ icon, title, route }: IProps) {
         active ? 'bg-primary-200' : 'bg-primary-100'
       }`}
       onClick={() => {
-        updateShowSidebar(false);
-        router.replace(route);
+        setShowSidebar(width >= 1024);
+        router.push(route);
       }}
     >
       <div className="text-xl w-7 flex items-center justify-center">

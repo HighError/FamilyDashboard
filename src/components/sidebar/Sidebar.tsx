@@ -1,5 +1,4 @@
-import { SidebarContent } from '@/context/SidebarContext';
-import { useContext, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -9,18 +8,15 @@ import {
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import SidebarItem from './SidebarItem';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 
-function Sidebar() {
-  const context = useContext(SidebarContent);
-  const [showSidebar, setShowSidebar] = useState(false);
+interface IProps {
+  showSidebar: boolean;
+  setShowSidebar: Dispatch<SetStateAction<boolean>>;
+}
 
-  useEffect(() => {
-    if (!window) {
-      setShowSidebar(false);
-    } else {
-      setShowSidebar(context.showSidebar);
-    }
-  }, [context.showSidebar]);
+function Sidebar({ showSidebar, setShowSidebar }: IProps) {
+  const { width } = useWindowDimensions();
   return (
     <div>
       <div
@@ -33,7 +29,7 @@ function Sidebar() {
             <button
               type="button"
               className="bg-primary-100 hover:bg-primary-200 duration-300 px-3 py-2 text-sm rounded-md cursor-pointer select-none laptop:hidden"
-              onClick={() => context.updateShowSidebar(false)}
+              onClick={() => setShowSidebar(width >= 1024)}
             >
               <div>
                 <FontAwesomeIcon icon={faXmark} />
@@ -41,18 +37,30 @@ function Sidebar() {
             </button>
           </div>
           <div className="flex flex-col items-center w-full gap-4 laptop:gap-2">
-            <SidebarItem icon={faTableColumns} title="Огляд" route="/" />
+            <SidebarItem
+              icon={faTableColumns}
+              title="Огляд"
+              route="/"
+              setShowSidebar={setShowSidebar}
+            />
             <SidebarItem
               icon={faFileInvoiceDollar}
               title="Підписки"
               route="/subscriptions"
+              setShowSidebar={setShowSidebar}
             />
             <SidebarItem
               icon={faMoneyBillTransfer}
               title="Транзакції"
               route="/transactions"
+              setShowSidebar={setShowSidebar}
             />
-            <SidebarItem icon={faUser} title="Профіль" route="/profile" />
+            <SidebarItem
+              icon={faUser}
+              title="Профіль"
+              route="/profile"
+              setShowSidebar={setShowSidebar}
+            />
             {/* {profile?.role === 'admin' && (
               <div className="flex flex-col items-center w-full gap-2">
                 <div className="bg-gray-100/75 w-full h-1 rounded-xl" />
@@ -77,7 +85,7 @@ function Sidebar() {
         className={`fixed top-0 bottom-0 left-0 right-0 z-20 bg-gray-100 laptop:hidden duration-300 ${
           showSidebar ? 'opacity-90' : 'opacity-0 pointer-events-none'
         }`}
-        onClick={() => context.updateShowSidebar(false)}
+        onClick={() => setShowSidebar(width >= 1024)}
         aria-hidden="true"
       />
     </div>
