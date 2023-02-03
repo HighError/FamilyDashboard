@@ -11,8 +11,18 @@ export const routes: IRoutes[] = [
     subTitle: 'З поверненням',
   },
   {
+    path: '/subscriptions',
+    title: 'Підписки',
+    subTitle: 'Ваші підписки',
+  },
+  {
     path: '/transactions',
     title: 'Транзакції',
     subTitle: 'Ваші транзакції',
+  },
+  {
+    path: '/profile',
+    title: 'Профіль',
+    subTitle: 'Ваш профіль',
   },
 ];

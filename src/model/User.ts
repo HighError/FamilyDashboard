@@ -1,4 +1,5 @@
 import { model, Schema, Document, models } from 'mongoose';
+import { ISubscription } from './Subscription';
 import { ITransaction } from './Transaction';
 
 export interface IUser extends Document {
@@ -6,7 +7,7 @@ export interface IUser extends Document {
   email: string;
   password?: string;
   balance: number;
-  subscriptions: [];
+  subscriptions: ISubscription[];
   transactions: ITransaction[];
   role: 'default' | 'admin' | 'unknown';
   paymentLink: string;

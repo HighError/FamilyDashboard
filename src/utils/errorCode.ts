@@ -25,6 +25,10 @@ function GetErrorCodeMessage(code: string): string {
       return 'Цей логін уже зайнятий';
     case 'ERR_USER_NOT_FOUND':
       return 'Користувача не знайдено';
+    case 'ERR_MISSING_PARAMS':
+      return "Відсутні обов'язкові параметри";
+    case 'ERR_OLD_PASSWORD_INVALID':
+      return 'Невірний попередній пароль';
     default:
       return 'Невідома помилка!';
   }
