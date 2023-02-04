@@ -1,8 +1,9 @@
+import { IconType } from '@/types/Icon';
 import { model, Schema, Document, models } from 'mongoose';
 
 export interface ISubscription extends Document {
   title: string;
-  icon: 'default' | 'youtube' | 'spotify';
+  icon: IconType;
   cost: number;
   date: Date;
 }
@@ -29,5 +30,5 @@ const subscriptionSchema = new Schema({
 
 const Subscription =
   models.Subscription ||
-  model<ISubscription>('Transaction', subscriptionSchema);
+  model<ISubscription>('Subscription', subscriptionSchema);
 export default Subscription;

@@ -5,12 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import ShowErrorMessage from '@/utils/errorCode';
-import { useRouter } from 'next/router';
 import TelegramUnlinkModal from '../modals/TelegramUnlinkModal';
 import { ModalType } from '@/types/Modal';
 
 function Telegram() {
-  const router = useRouter();
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const [modal, setModal] = useState<ModalType>({

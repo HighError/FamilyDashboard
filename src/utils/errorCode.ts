@@ -33,6 +33,12 @@ function GetErrorCodeMessage(code: string): string {
       return 'Телеграм уже приєднано до вашого профіля!';
     case 'ERR_TELEGRAM_ALREADY_UNLINKED':
       return "Телеграм уже від'єднано від вашого профіля!";
+    case 'ERR_NEED_ADMIN_AUTHORIZATION':
+      return 'У вас недостатньо прав!';
+    case 'ERR_INVALID_SUB_ID':
+      return 'Невірно заданий ID підписки';
+    case 'ERR_INVALID_PARAMS':
+      return 'Один або декілька параметрів задано невірно!';
     default:
       return 'Невідома помилка!';
   }

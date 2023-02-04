@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import getIcon from '@/utils/getIcon';
 import { IconType } from '@/types/Icon';
-import { GetForamtedData } from '@/utils/dateConverters';
+import { GetForamtedData } from '@/utils/data';
 
 interface IProps {
   title: string;

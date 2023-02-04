@@ -3,8 +3,8 @@ import { ITransaction } from '@/model/Transaction';
 import { useContext, useEffect, useState } from 'react';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { GetForamtedDataAndTime } from '@/utils/dateConverters';
-import { ConvertTransactionSuma } from '@/utils/moneyConverter';
+import { GetForamtedDataAndTime } from '@/utils/data';
+import { ConvertTransactionSuma } from '@/utils/money';
 import { getSession, GetSessionParams } from 'next-auth/react';
 
 export async function getServerSideProps(

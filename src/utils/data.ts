@@ -18,3 +18,7 @@ export function GetForamtedData(date: Date) {
   };
   return `${date.toLocaleDateString('ukr-UA', options)}`;
 }
+
+export function GetDataForInput(date: Date): string {
+  return date.toISOString().split('T')[0];
+}

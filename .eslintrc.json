@@ -20,5 +20,13 @@
   "rules": {
     "implicit-arrow-linebreak": "off",
     "no-console": "error"
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [["@components", "./components/*"]],
+        "extensions": [".js", ".jsx"]
+      }
+    }
   }
 }

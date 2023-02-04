@@ -25,4 +25,9 @@ export const routes: IRoutes[] = [
     title: 'Профіль',
     subTitle: 'Ваш профіль',
   },
+  {
+    path: '/admin/subscriptions',
+    title: 'Підписки',
+    subTitle: 'Керування підписками',
+  },
 ];

@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
-import { GetForamtedDataAndTime } from '@/utils/dateConverters';
-import { ConvertTransactionSuma } from '@/utils/moneyConverter';
+import { GetForamtedDataAndTime } from '@/utils/data';
+import { ConvertTransactionSuma } from '@/utils/money';
 
 interface IProps {
   title: string;

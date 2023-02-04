@@ -1,5 +1,9 @@
-import { Dispatch, SetStateAction } from 'react';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { Dispatch, SetStateAction, useContext } from 'react';
+import {
+  faFileSignature,
+  faUserPen,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTableColumns,
@@ -9,6 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import SidebarItem from './SidebarItem';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
+import { UserContext } from '@/context/UserContext';
 
 interface IProps {
   showSidebar: boolean;
@@ -17,6 +22,7 @@ interface IProps {
 
 function Sidebar({ showSidebar, setShowSidebar }: IProps) {
   const { width } = useWindowDimensions();
+  const { user } = useContext(UserContext);
   return (
     <div>
       <div
@@ -61,22 +67,23 @@ function Sidebar({ showSidebar, setShowSidebar }: IProps) {
               route="/profile"
               setShowSidebar={setShowSidebar}
             />
-            {/* {profile?.role === 'admin' && (
-              <div className="flex flex-col items-center w-full gap-2">
-                <div className="bg-gray-100/75 w-full h-1 rounded-xl" />
+            {user?.role === 'admin' && (
+              <div className="flex flex-col items-center w-full mt-8 gap-4 laptop:gap-2">
                 <div className="text-2xl font-semibold">Адмін панель</div>
                 <SidebarItem
-                  icon={<RiBillLine />}
+                  icon={faFileSignature}
                   title="Підписки"
-                  route="/admin/subs"
+                  route="/admin/subscriptions"
+                  setShowSidebar={setShowSidebar}
                 />
                 <SidebarItem
-                  icon={<AiOutlineUser />}
+                  icon={faUserPen}
                   title="Користувачі"
                   route="/admin/users"
+                  setShowSidebar={setShowSidebar}
                 />
               </div>
-            )} */}
+            )}
           </div>
         </div>
       </div>

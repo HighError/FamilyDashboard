@@ -4,7 +4,7 @@ import { faWallet } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ModalType } from '@/types/Modal';
 import BalanceModal from '../modals/BalanceModal';
-import { ConvertBalance } from '@/utils/moneyConverter';
+import { ConvertBalance } from '@/utils/money';
 
 function Balance() {
   const { user } = useContext(UserContext);
