@@ -1,6 +1,5 @@
 import AdminUser from '@/components/AdminUser';
 import { IUser } from '@/model/User';
-import { ModalType } from '@/types/Modal';
 import ShowErrorMessage from '@/utils/errorCode';
 import axios from 'axios';
 import { getSession, GetSessionParams } from 'next-auth/react';
@@ -27,10 +26,6 @@ export async function getServerSideProps(
 function AdminUsers() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<IUser[]>([]);
-  const [modal, setModal] = useState<ModalType>({
-    modal: null,
-    data: null,
-  });
 
   async function UpdateData() {
     setIsLoading(true);
@@ -50,7 +45,13 @@ function AdminUsers() {
   return (
     <div className="grid grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-3 gap-3">
       {data.map((e) => (
-        <AdminUser key={e._id} id={e._id} name={e.username} email={e.email} />
+        <AdminUser
+          key={e._id}
+          id={e._id}
+          name={e.username}
+          email={e.email}
+          isLoading={isLoading}
+        />
       ))}
     </div>
   );

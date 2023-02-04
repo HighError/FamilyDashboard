@@ -1,3 +1,4 @@
+import PaymentLink from '@/components/admin/PaymentLink';
 import UserBalance from '@/components/admin/UserBalance';
 import { IUser } from '@/model/User';
 import ShowErrorMessage from '@/utils/errorCode';
@@ -62,8 +63,14 @@ function AdminEditUser() {
   }
 
   return (
-    <div className="grid grid-cols-3 gap-5">
+    <div className="grid grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-3 gap-5">
       <UserBalance
+        user={data}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        updateData={UpdateData}
+      />
+      <PaymentLink
         user={data}
         isLoading={isLoading}
         setIsLoading={setIsLoading}

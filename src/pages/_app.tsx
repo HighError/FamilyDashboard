@@ -25,9 +25,9 @@ export default function App({
   const { width } = useWindowDimensions();
   const [showSidebar, setShowSidebar] = useState(width >= 1024);
 
-  const route: IRoutes | undefined = routes.find((e) =>
-    asPath.startsWith(e.path)
-  );
+  const route: IRoutes | undefined = routes.find((e) => {
+    return e.path.test(asPath);
+  });
 
   useEffect(() => {
     setShowSidebar(width >= 1024);

@@ -9,9 +9,10 @@ interface IProps {
   id: string;
   name: string;
   email: string;
+  isLoading: boolean;
 }
 
-function User({ id, name, email }: IProps) {
+function User({ id, name, email, isLoading }: IProps) {
   const route = useRouter();
   return (
     <div className="bg-gray-200 rounded-lg flex flex-row items-center justify-between px-3 py-2 gap-2">
@@ -37,6 +38,7 @@ function User({ id, name, email }: IProps) {
       <button
         className="bg-primary-100 hover:bg-primary-150 disabled:bg-gray-100 duration-300 px-2 py-1 rounded-lg"
         type="button"
+        disabled={isLoading}
         onClick={() => route.push(`/admin/users/${id}`)}
       >
         <FontAwesomeIcon icon={faPen} />

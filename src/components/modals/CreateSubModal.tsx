@@ -61,7 +61,7 @@ function CreateSubModal({
         <form className="flex flex-col gap-3" onSubmit={form.handleSubmit}>
           <label
             htmlFor="title"
-            className="flex flex-row gap-3 items-center justify-between"
+            className="flex flex-col tablet:flex-row gap-1 tablet:gap-3 items-start tablet:items-center justify-between"
           >
             Назва:
             <input
@@ -76,7 +76,7 @@ function CreateSubModal({
           </label>
           <label
             htmlFor="icon"
-            className="flex flex-row gap-3 items-center justify-between"
+            className="flex flex-col tablet:flex-row gap-1 tablet:gap-3 items-start tablet:items-center justify-between"
           >
             Іконка:
             <select
@@ -94,7 +94,7 @@ function CreateSubModal({
           </label>
           <label
             htmlFor="cost"
-            className="flex flex-row gap-3 items-center justify-between"
+            className="flex flex-col tablet:flex-row gap-1 tablet:gap-3 items-start tablet:items-center justify-between"
           >
             Ціна:
             <input
@@ -112,7 +112,7 @@ function CreateSubModal({
           </label>
           <label
             htmlFor="date"
-            className="flex flex-row gap-3 items-center justify-between"
+            className="flex flex-col tablet:flex-row gap-1 tablet:gap-3 items-start tablet:items-center justify-between"
           >
             <div className="text-sm tablet:text-base">
               Дата наступного платежу:

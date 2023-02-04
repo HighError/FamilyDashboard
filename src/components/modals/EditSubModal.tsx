@@ -81,7 +81,7 @@ function EditSubModal({
         <form className="flex flex-col gap-3" onSubmit={form.handleSubmit}>
           <label
             htmlFor="title"
-            className="flex flex-row gap-3 items-center justify-between"
+            className="flex flex-col tablet:flex-row gap-1 tablet:gap-3 items-start tablet:items-center justify-between"
           >
             Назва:
             <input
@@ -96,7 +96,7 @@ function EditSubModal({
           </label>
           <label
             htmlFor="icon"
-            className="flex flex-row gap-3 items-center justify-between"
+            className="flex flex-col tablet:flex-row gap-1 tablet:gap-3 items-start tablet:items-center justify-between"
           >
             Іконка:
             <select
@@ -114,7 +114,7 @@ function EditSubModal({
           </label>
           <label
             htmlFor="cost"
-            className="flex flex-row gap-3 items-center justify-between"
+            className="flex flex-col tablet:flex-row gap-1 tablet:gap-3 items-start tablet:items-center justify-between"
           >
             Ціна:
             <input
@@ -132,7 +132,7 @@ function EditSubModal({
           </label>
           <label
             htmlFor="date"
-            className="flex flex-row gap-3 items-center justify-between"
+            className="flex flex-col tablet:flex-row gap-1 tablet:gap-3 items-start tablet:items-center justify-between"
           >
             <div className="text-sm tablet:text-base">
               Дата наступного платежу:
@@ -147,7 +147,7 @@ function EditSubModal({
               className="bg-gray-200 rounded-lg mb-[1px border border-gray-300 duration-300 focus-within:border-primary-100 outline-none focus:outline-none pr-6 pl-3 py-3 caret-white"
             />
           </label>
-          <div className="flex flex-row items-center justify-between mt-5">
+          <div className="flex flex-col tablet:flex-row gap-1 tablet:gap-3 items-start tablet:items-center justify-between">
             <button
               type="button"
               disabled={isLoading}

@@ -17,7 +17,7 @@ interface IProps {
   updateData: () => Promise<void>;
 }
 
-function EditBalanceModal({
+function EditPaymentLink({
   isOpen,
   setIsOpen,
   isLoading,
@@ -27,17 +27,17 @@ function EditBalanceModal({
 }: IProps) {
   const form = useFormik({
     initialValues: {
-      balance: 0,
+      paymentLink: '',
     },
     onSubmit: async (values) => {
       setIsLoading(true);
       const data = {
         id: user?._id ?? '',
-        balance: values.balance * 100,
+        paymentLink: values.paymentLink,
       };
 
       try {
-        await axios.put('/api/user/balance', data);
+        await axios.put('/api/user/payment-link', data);
         toast.success('Баланс користувача успішно оновлений');
 
         await updateData();
@@ -56,7 +56,7 @@ function EditBalanceModal({
   useEffect(() => {
     form.resetForm();
     if (user) {
-      form.values.balance = user.balance / 100;
+      form.values.paymentLink = user.paymentLink;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, isOpen]);
@@ -64,25 +64,22 @@ function EditBalanceModal({
   return (
     <BaseModal isOpen={isOpen} setIsOpen={setIsOpen} isLoading={isLoading}>
       <div className="flex flex-col">
-        <div className="text-2xl font-semibold mb-5">Редагування балансу</div>
+        <div className="text-2xl font-semibold mb-5">Редагування оплати</div>
         <div className="mb-2 text-gray-400 text-sm">
-          Попередній баланс: {ConvertBalance(user?.balance ?? 0)}
+          Попереднє посилання:
+          {ConvertBalance(user?.balance ?? 0)}
         </div>
         <form className="flex flex-col gap-3" onSubmit={form.handleSubmit}>
           <label
             htmlFor="cost"
             className="flex flex-col tablet:flex-row gap-1 tablet:gap-3 items-start tablet:items-center justify-between"
           >
-            Баланс:
+            Посилання:
             <input
-              id="balance"
-              name="balance"
-              value={form.values.balance}
+              id="paymentLink"
+              name="paymentLink"
+              value={form.values.paymentLink}
               onChange={form.handleChange}
-              type="number"
-              min={0}
-              step={0.01}
-              placeholder="Ціна в гривнях"
               required
               className="bg-gray-200 rounded-lg mb-[1px border border-gray-300 duration-300 focus-within:border-primary-100 outline-none focus:outline-none pr-6 pl-3 py-3 caret-white"
             />
@@ -116,4 +113,4 @@ function EditBalanceModal({
   );
 }
 
-export default EditBalanceModal;
+export default EditPaymentLink;
