@@ -1,7 +1,7 @@
 import HttpError from '@/classes/HttpError';
 import dbConnect from '@/lib/dbconnect';
 import User from '@/model/User';
-import verifyUser from '@/utils/verifyUser';
+import { verifyAdmin } from '@/utils/verifyUser';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -10,26 +10,15 @@ export default async function handler(
 ) {
   try {
     await dbConnect();
-    const id = await verifyUser(req, res);
+    await verifyAdmin(req, res);
 
     const requestMethod = req.method;
     switch (requestMethod) {
-      case 'POST':
-        const user = await User.findById(id);
-        if (!user) {
-          throw new HttpError(400, 'ERR_USER_NOT_FOUND');
-        }
-
-        if (!user.telegram) {
-          throw new HttpError(400, 'ERR_TELEGRAM_ALREADY_UNLINKED');
-        }
-
-        user.telegram = '';
-
-        await user.save();
-        return res.status(200).send('OK!');
+      case 'GET':
+        const user = await User.find({});
+        return res.status(200).json(user);
       default:
-        return res.status(405).send('Only POST method allowed!');
+        return res.status(405).send('Only GET method allowed!');
     }
   } catch (err) {
     if (err instanceof HttpError) {

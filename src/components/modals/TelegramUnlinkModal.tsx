@@ -26,7 +26,7 @@ function TelegramUnlinkModal({
   async function unlink() {
     try {
       setIsLoading(true);
-      await axios.post('/api/user/telegram/unlink');
+      await axios.delete('/api/user/telegram');
       toast.success("Телеграм успішно відв'язано.");
       toast.loading('Перезапуск сторінки...');
       setTimeout(() => {

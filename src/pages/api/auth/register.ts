@@ -1,8 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import bcrypt from "bcrypt";
+import type { NextApiRequest, NextApiResponse } from 'next';
+import bcrypt from 'bcrypt';
 
-import dbConnect from "@/lib/dbconnect";
-import User from "@/model/User";
+import dbConnect from '@/lib/dbconnect';
+import User from '@/model/User';
 
 interface ResponseData {
   error?: string;
@@ -14,12 +14,12 @@ async function validate(email: string, username: string) {
   const emailUser = await User.findOne({ email });
 
   if (emailUser) {
-    return { error_code: "ERR_EMAIL_ALREADY_EXISTS" };
+    return { error_code: 'ERR_EMAIL_ALREADY_EXISTS' };
   }
 
   const usernameUser = await User.findOne({ username });
   if (usernameUser) {
-    return { error_code: "ERR_USERNAME_ALREADY_EXISTS" };
+    return { error_code: 'ERR_USERNAME_ALREADY_EXISTS' };
   }
 
   return null;
@@ -30,10 +30,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    if (req.method !== "POST") {
+    if (req.method !== 'POST') {
       return res
         .status(400)
-        .json({ error: "This API call only accepts POST methods" });
+        .json({ error: 'This API call only accepts POST methods' });
     }
 
     const { username, email, password } = req.body;
@@ -53,7 +53,7 @@ export default async function handler(
 
     await newUser.save();
 
-    res.status(200).send("ok");
+    res.status(200).send('ok');
   } catch (err) {
     res.status(500).json(err);
   }

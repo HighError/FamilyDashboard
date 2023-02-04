@@ -1,14 +1,14 @@
-import axios from "axios";
-import { NextPage } from "next";
-import { useState } from "react";
-import { useFormik } from "formik";
-import { faUser, faLock, faAt } from "@fortawesome/free-solid-svg-icons";
-import { getSession, GetSessionParams, signIn } from "next-auth/react";
-import { toast } from "react-toastify";
-import Router from "next/router";
+import axios from 'axios';
+import { NextPage } from 'next';
+import { useState } from 'react';
+import { useFormik } from 'formik';
+import { faUser, faLock, faAt } from '@fortawesome/free-solid-svg-icons';
+import { getSession, GetSessionParams, signIn } from 'next-auth/react';
+import { toast } from 'react-toastify';
+import Router from 'next/router';
 
-import AuthFormItem from "@/components/auth/AuthFormItem";
-import ShowErrorMessage from "@/utils/errorCode";
+import AuthFormItem from '@/components/auth/AuthFormItem';
+import ShowErrorMessage from '@/utils/errorCode';
 
 export async function getServerSideProps(
   context: GetSessionParams | undefined
@@ -17,7 +17,7 @@ export async function getServerSideProps(
   if (session) {
     return {
       redirect: {
-        destination: "/",
+        destination: '/',
         permanent: false,
       },
     };
@@ -45,17 +45,17 @@ const Register: NextPage = () => {
       values.password.length > 0 &&
       values.cpassword.length > 0
     ) {
-      error.cpassword = "Паролі не збігаються";
+      error.cpassword = 'Паролі не збігаються';
     }
 
     if (values.password.length < 8 && values.password.length > 0) {
-      error.password = "Пароль повинен складатись мінімум з 8 символів";
+      error.password = 'Пароль повинен складатись мінімум з 8 символів';
     }
 
     if (values.username.length < 3 && values.username.length > 0) {
-      error.username = "Логін повинен складатись мінімум з 3 символів";
+      error.username = 'Логін повинен складатись мінімум з 3 символів';
     } else if (values.username.length > 20) {
-      error.username = "Логін повинен складатись максимум з 20 символів";
+      error.username = 'Логін повинен складатись максимум з 20 символів';
     }
 
     return error;
@@ -63,10 +63,10 @@ const Register: NextPage = () => {
 
   const form = useFormik<FormValue>({
     initialValues: {
-      username: "",
-      email: "",
-      password: "",
-      cpassword: "",
+      username: '',
+      email: '',
+      password: '',
+      cpassword: '',
     },
     validate,
     onSubmit: async (values) => {
@@ -79,9 +79,9 @@ const Register: NextPage = () => {
       };
 
       try {
-        await axios.post("/api/register", data);
+        await axios.post('/api/auth/register', data);
 
-        const res = await signIn("credentials", {
+        const res = await signIn('credentials', {
           username: values.username,
           password: values.password,
           redirect: false,
@@ -92,10 +92,10 @@ const Register: NextPage = () => {
         }
 
         if (res.status === 401) {
-          throw new Error("ERR_INVALID_LOGIN_OR_PASSWORD");
+          throw new Error('ERR_INVALID_LOGIN_OR_PASSWORD');
         }
-        toast.success("Ви успішно ввійшли");
-        Router.push("/");
+        toast.success('Ви успішно ввійшли');
+        Router.push('/');
       } catch (err) {
         ShowErrorMessage(err);
       }
@@ -164,7 +164,7 @@ const Register: NextPage = () => {
             aria-hidden="true"
             role="status"
             className={`${
-              isLoading ? "inline" : "hidden"
+              isLoading ? 'inline' : 'hidden'
             } w-4 h-4 mr-3 animate-spin`}
             viewBox="0 0 100 101"
             fill="none"
@@ -179,7 +179,7 @@ const Register: NextPage = () => {
               fill="#5a4a78"
             />
           </svg>
-          {isLoading ? "Реєстрація..." : "Зареєструватись"}
+          {isLoading ? 'Реєстрація...' : 'Зареєструватись'}
         </button>
       </form>
     </div>

@@ -5,8 +5,8 @@ export default function ShowErrorMessage(err: unknown): void {
   if (typeof err === 'string') {
     toast.error(err);
   } else if (isAxiosError(err)) {
-    if (err.response && err.response.data && err.response.data.error_code) {
-      toast.error(GetErrorCodeMessage(err.response.data.error_code));
+    if (err.response && err.response.data) {
+      toast.error(GetErrorCodeMessage(err.response.data));
     } else {
       toast.error(GetErrorCodeMessage(''));
     }

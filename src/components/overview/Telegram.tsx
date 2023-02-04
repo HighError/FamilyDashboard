@@ -19,7 +19,7 @@ function Telegram() {
   async function link() {
     try {
       setIsLoading(true);
-      const res = await axios.post('/api/user/telegram/link');
+      const res = await axios.post('/api/user/telegram/');
       toast.info("Слідуйте інструкціям в боті для успішної прив'язки!");
       setTimeout(() => {
         window.open(

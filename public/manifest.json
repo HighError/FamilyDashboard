@@ -1,0 +1,16 @@
+{
+  "theme_color": "#5620c0",
+  "background_color": "#5620c0",
+  "display": "browser",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Family Dashboard",
+  "short_name": "Family",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

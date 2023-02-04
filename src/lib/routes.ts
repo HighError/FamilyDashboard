@@ -30,4 +30,9 @@ export const routes: IRoutes[] = [
     title: 'Підписки',
     subTitle: 'Керування підписками',
   },
+  {
+    path: '/admin/users',
+    title: 'Користувачі',
+    subTitle: 'Керування користувачами',
+  },
 ];
