@@ -28,12 +28,12 @@ export default async function handler(
         }
         return res.status(200).json(user);
       default:
-        return res.status(405).send('Only GET method allowed!');
+        return res.status(405).json('Only GET method allowed!');
     }
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.code).send(err.message);
+      return res.status(err.code).json(err.message);
     }
-    res.status(500).send('ERR_UNKNOWN');
+    res.status(500).json('ERR_UNKNOWN');
   }
 }

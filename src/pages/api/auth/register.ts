@@ -53,7 +53,7 @@ export default async function handler(
 
     await newUser.save();
 
-    res.status(200).send('ok');
+    res.status(200).json('ok');
   } catch (err) {
     res.status(500).json(err);
   }

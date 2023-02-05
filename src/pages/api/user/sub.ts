@@ -43,7 +43,7 @@ export default async function handler(
         updateUser.subscriptions.push(sub);
 
         await updateUser.save();
-        return res.status(200).send('OK');
+        return res.status(200).json('OK');
       case 'DELETE':
         if (!userID || !subID) {
           throw new HttpError(400, 'ERR_MISSING_PARAMS');
@@ -68,14 +68,14 @@ export default async function handler(
           }
         }
         await removeSubUser.save();
-        return res.status(200).send('OK');
+        return res.status(200).json('OK');
       default:
-        return res.status(405).send('Only PUT/DELETE method allowed!');
+        return res.status(405).json('Only PUT/DELETE method allowed!');
     }
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.code).send(err.message);
+      return res.status(err.code).json(err.message);
     }
-    res.status(500).send('ERR_UNKNOWN');
+    res.status(500).json('ERR_UNKNOWN');
   }
 }
