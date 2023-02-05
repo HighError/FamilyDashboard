@@ -3,7 +3,7 @@ import { ITransaction } from '@/model/Transaction';
 import { useContext, useEffect, useState } from 'react';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { GetForamtedDataAndTime } from '@/utils/data';
+import { GetForamtedDataAndTime } from '@/utils/date';
 import { ConvertTransactionSuma } from '@/utils/money';
 import { getSession, GetSessionParams } from 'next-auth/react';
 
@@ -93,7 +93,9 @@ function Transactions() {
               >
                 {e.title ?? '???'}
               </th>
-              <td className="px-6 py-4">{GetForamtedDataAndTime(e.date)}</td>
+              <td className="px-6 py-4">
+                {GetForamtedDataAndTime(new Date(e.date))}
+              </td>
               <td
                 className={`px-6 py-4 ${e.suma > 0 ? 'text-lime' : 'text-red'}`}
               >

@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
-import { GetForamtedDataAndTime } from '@/utils/data';
+import { GetForamtedDataAndTime } from '@/utils/date';
 import { ConvertTransactionSuma } from '@/utils/money';
 
 interface IProps {
   title: string;
-  date: Date;
+  date: string;
   suma: number;
 }
 
@@ -23,7 +23,7 @@ function LastTransactionsItems({ title, date, suma }: IProps) {
         <div className="flex flex-col justify-between gap-2">
           <div className="tablet:text-lg leading-5">{title}</div>
           <div className="text-sm text-gray-400">
-            {GetForamtedDataAndTime(date)}
+            {GetForamtedDataAndTime(new Date(date))}
           </div>
         </div>
       </div>

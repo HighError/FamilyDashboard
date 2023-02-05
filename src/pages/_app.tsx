@@ -15,6 +15,7 @@ import UserProvider from '@/context/UserContext';
 import '@/styles/globals.css';
 import '@/styles/loading.css';
 import '@/styles/errors.css';
+import '@/styles/accordion.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function App({

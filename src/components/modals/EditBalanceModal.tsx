@@ -84,7 +84,7 @@ function EditBalanceModal({
               step={0.01}
               placeholder="Ціна в гривнях"
               required
-              className="bg-gray-200 rounded-lg mb-[1px border border-gray-300 duration-300 focus-within:border-primary-100 outline-none focus:outline-none pr-6 pl-3 py-3 caret-white"
+              className="bg-gray-200 rounded-lg border border-gray-300 duration-300 focus-within:border-primary-100 outline-none focus:outline-none pr-6 pl-3 py-3 caret-white"
             />
           </label>
           <div className="flex flex-row items-center justify-between mt-5">

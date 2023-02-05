@@ -35,12 +35,8 @@ function PaymentLink({ user, isLoading, setIsLoading, updateData }: IProps) {
             </div>
             <div className="text-sm text-gray-400">Посилання для оплати</div>
           </div>
-          <div
-            className={`pt-3 truncate ${
-              user.balance < 0 ? 'text-red' : 'text-white'
-            }`}
-          >
-            {user.paymentLink ?? 'Посилання відсутнє'}
+          <div className="pt-2 truncate">
+            {user.paymentLink === '' ? 'Посилання відсутнє' : user.paymentLink}
           </div>
         </div>
         <button

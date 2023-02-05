@@ -7,7 +7,7 @@ import Shimmer from '../../components/Shimmer';
 import ShowErrorMessage from '../../utils/errorCode';
 import { ISubscription } from '../../model/Subscription';
 import { ModalType } from '../../types/Modal';
-import { GetForamtedData } from '../../utils/data';
+import { GetForamtedData } from '../../utils/date';
 import { ConvertBalance } from '../../utils/money';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

@@ -5,7 +5,7 @@ export interface ISubscription extends Document {
   title: string;
   icon: IconType;
   cost: number;
-  date: Date;
+  date: string;
 }
 
 const subscriptionSchema = new Schema({

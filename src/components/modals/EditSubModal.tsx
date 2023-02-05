@@ -1,6 +1,6 @@
 import { ISubscription } from '@/model/Subscription';
 import { ModalType } from '@/types/Modal';
-import { GetDataForInput } from '@/utils/data';
+import { GetDataForInput } from '@/utils/date';
 import ShowErrorMessage from '@/utils/errorCode';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -91,7 +91,7 @@ function EditSubModal({
               value={form.values.title}
               required
               minLength={3}
-              className="bg-gray-200 rounded-lg mb-[1px border border-gray-300 duration-300 focus-within:border-primary-100 outline-none focus:outline-none pr-6 pl-3 py-3 caret-white"
+              className="bg-gray-200 rounded-lg border border-gray-300 duration-300 focus-within:border-primary-100 outline-none focus:outline-none pr-6 pl-3 py-3 caret-white"
             />
           </label>
           <label
@@ -105,7 +105,7 @@ function EditSubModal({
               value={form.values.icon}
               onChange={form.handleChange}
               required
-              className="bg-gray-200 rounded-lg mb-[1px border border-gray-300 duration-300 focus-within:border-primary-100 outline-none focus:outline-none pr-6 pl-3 py-3 caret-white"
+              className="bg-gray-200 rounded-lg border border-gray-300 duration-300 focus-within:border-primary-100 outline-none focus:outline-none pr-6 pl-3 py-3 caret-white"
             >
               <option value="default">Default</option>
               <option value="youtube">Youtube</option>
@@ -127,7 +127,7 @@ function EditSubModal({
               step={0.01}
               placeholder="Ціна в гривнях"
               required
-              className="bg-gray-200 rounded-lg mb-[1px border border-gray-300 duration-300 focus-within:border-primary-100 outline-none focus:outline-none pr-6 pl-3 py-3 caret-white"
+              className="bg-gray-200 rounded-lg border border-gray-300 duration-300 focus-within:border-primary-100 outline-none focus:outline-none pr-6 pl-3 py-3 caret-white"
             />
           </label>
           <label
@@ -144,7 +144,7 @@ function EditSubModal({
               onChange={form.handleChange}
               type="date"
               required
-              className="bg-gray-200 rounded-lg mb-[1px border border-gray-300 duration-300 focus-within:border-primary-100 outline-none focus:outline-none pr-6 pl-3 py-3 caret-white"
+              className="bg-gray-200 rounded-lg border border-gray-300 duration-300 focus-within:border-primary-100 outline-none focus:outline-none pr-6 pl-3 py-3 caret-white"
             />
           </label>
           <div className="flex flex-col tablet:flex-row gap-1 tablet:gap-3 items-start tablet:items-center justify-between">

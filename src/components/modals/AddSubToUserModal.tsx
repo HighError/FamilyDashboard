@@ -1,50 +1,50 @@
-import { IUser } from '@/model/User';
+import { ISubscription } from '@/model/Subscription';
 import { ModalType } from '@/types/Modal';
 import ShowErrorMessage from '@/utils/errorCode';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { toast } from 'react-toastify';
 import BaseModal from '../BaseModal';
-import isURL from 'validator/lib/isURL';
 
 interface IProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<ModalType>>;
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
-  user?: IUser;
+  userID: string;
   updateData: () => Promise<void>;
 }
 
-function EditPaymentLink({
+function AddSubToUserModal({
   isOpen,
   setIsOpen,
   isLoading,
   setIsLoading,
-  user,
+  userID,
   updateData,
 }: IProps) {
+  const [subs, setSubs] = useState<ISubscription[]>([]);
   const form = useFormik({
     initialValues: {
-      paymentLink: '',
+      sub: '',
     },
     onSubmit: async (values) => {
       setIsLoading(true);
-
-      if (!isURL(values.paymentLink)) {
-        setIsLoading(false);
-        return toast.error('Ви повинні ввести посилання');
-      }
-
       const data = {
-        id: user?._id ?? '',
-        paymentLink: values.paymentLink,
+        userID: userID,
+        subID: values.sub,
       };
 
       try {
-        await axios.put('/api/user/payment-link', data);
-        toast.success('Баланс користувача успішно оновлений');
+        await axios.put('/api/user/sub', data);
+        toast.success('Підписка додана користувачу');
 
         await updateData();
         form.resetForm();
@@ -59,36 +59,52 @@ function EditPaymentLink({
     },
   });
 
-  useEffect(() => {
-    form.resetForm();
-    if (user) {
-      form.values.paymentLink = user.paymentLink;
+  const updateSub = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const { data } = await axios.get('/api/subs');
+      setSubs(data);
+    } catch (err) {
+      ShowErrorMessage(err);
+      setIsOpen({
+        modal: null,
+        data: null,
+      });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, isOpen]);
+    setIsLoading(false);
+  }, [setIsLoading, setIsOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
+      updateSub();
+    }
+  }, [isOpen, updateSub]);
 
   return (
     <BaseModal isOpen={isOpen} setIsOpen={setIsOpen} isLoading={isLoading}>
       <div className="flex flex-col">
-        <div className="text-2xl font-semibold mb-5">Редагування оплати</div>
-        <div className="mb-2 text-gray-400 text-sm">
-          Попереднє посилання:
-          <div>{user?.paymentLink ?? ''}</div>
-        </div>
+        <div className="text-2xl font-semibold mb-5">Додавання підписки</div>
         <form className="flex flex-col gap-3" onSubmit={form.handleSubmit}>
           <label
             htmlFor="cost"
             className="flex flex-col tablet:flex-row gap-1 tablet:gap-3 items-start tablet:items-center justify-between"
           >
-            Посилання:
-            <input
-              id="paymentLink"
-              name="paymentLink"
-              value={form.values.paymentLink}
+            Підписка:
+            <select
+              id="sub"
+              name="sub"
+              value={form.values.sub}
               onChange={form.handleChange}
               required
               className="bg-gray-200 rounded-lg border border-gray-300 duration-300 focus-within:border-primary-100 outline-none focus:outline-none pr-6 pl-3 py-3 caret-white"
-            />
+            >
+              <option value="">-</option>
+              {subs.map((e) => (
+                <option key={e._id} value={e._id}>
+                  {e.title}
+                </option>
+              ))}
+            </select>
           </label>
           <div className="flex flex-row items-center justify-between mt-5">
             <button
@@ -110,7 +126,7 @@ function EditPaymentLink({
               disabled={isLoading}
               className="bg-primary-100 hover:bg-primary-150 disabled:bg-gray-100 duration-300 px-3 py-2 rounded-lg"
             >
-              Змінити
+              Додати
             </button>
           </div>
         </form>
@@ -119,4 +135,4 @@ function EditPaymentLink({
   );
 }
 
-export default EditPaymentLink;
+export default AddSubToUserModal;

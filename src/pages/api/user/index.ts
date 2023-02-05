@@ -15,7 +15,7 @@ export default async function handler(
     const requestMethod = req.method;
     switch (requestMethod) {
       case 'GET':
-        const user = await User.findById(id);
+        const user = await User.findById(id).populate('subscriptions');
         if (!user) {
           throw new HttpError(400, 'ERR_USER_NOT_FOUND');
         }

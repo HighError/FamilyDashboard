@@ -3,7 +3,7 @@ import { model, Schema, Document, ObjectId, models } from 'mongoose';
 export interface ITemporaryKey extends Document {
   user: ObjectId;
   key: string;
-  date: Date;
+  date: string;
 }
 
 const temporaryKeySchema = new Schema({

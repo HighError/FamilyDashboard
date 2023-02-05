@@ -129,7 +129,7 @@ function Profile() {
             </div>
           </div>
           <div className="my-3">
-            <div className="bg-gray-200 rounded-lg mb-[1px border border-gray-300 duration-300 focus-within:border-primary-100 ">
+            <div className="bg-gray-200 rounded-lg border border-gray-300 duration-300 focus-within:border-primary-100 ">
               <input
                 id="newPass"
                 name="newPass"
