@@ -1,6 +1,16 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-}
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === 'development',
+  buildExcludes: [/middleware-manifest.json$/],
+});
 
-module.exports = nextConfig
+module.exports = withPWA({
+  reactStrictMode: true,
+  images: {
+    domains: ['www.gravatar.com'],
+  },
+});
