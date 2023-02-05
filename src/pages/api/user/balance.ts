@@ -17,7 +17,7 @@ export default async function handler(
     switch (requestMethod) {
       case 'PUT':
         const { id, balance } = req.body;
-        if (!id || !balance) {
+        if (!id || typeof balance !== 'number') {
           throw new HttpError(400, 'ERR_MISSING_PARAMS');
         }
 

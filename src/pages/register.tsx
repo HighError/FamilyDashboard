@@ -9,6 +9,7 @@ import Router from 'next/router';
 
 import AuthFormItem from '@/components/auth/AuthFormItem';
 import ShowErrorMessage from '@/utils/errorCode';
+import Link from 'next/link';
 
 export async function getServerSideProps(
   context: GetSessionParams | undefined
@@ -182,6 +183,14 @@ const Register: NextPage = () => {
           {isLoading ? 'Реєстрація...' : 'Зареєструватись'}
         </button>
       </form>
+
+      <div className="select-none">
+        Уже маєте аккаут?{' '}
+        <Link href="/login" className="text-primary-150 cursor-pointer">
+          Увійдіть
+        </Link>{' '}
+        у нього.
+      </div>
     </div>
   );
 };

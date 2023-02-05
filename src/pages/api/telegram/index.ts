@@ -42,7 +42,7 @@ export default async function handler(
 
         addUser.telegram = telegramID;
         await addUser.save();
-        return res.status(200).send('OK');
+        return res.status(200).json('OK');
       case 'DELETE':
         if (!telegramID) {
           throw new HttpError(400, 'ERR_MISSING_PARAMS');
@@ -63,7 +63,7 @@ export default async function handler(
     }
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.code).send(err.message);
+      return res.status(err.code).json(err.message);
     }
     res.status(500).send('ERR_UNKNOWN');
   }

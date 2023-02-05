@@ -3,7 +3,7 @@ import { ModalType } from '@/types/Modal';
 import ShowErrorMessage from '@/utils/errorCode';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import React, { Dispatch, SetStateAction, useContext } from 'react';
+import React, { Dispatch, SetStateAction, useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import BaseModal from '../BaseModal';
 
@@ -66,6 +66,12 @@ function AddTransactionModal({
       setIsLoading(false);
     },
   });
+
+  useEffect(() => {
+    if (isOpen) {
+      form.resetForm();
+    }
+  }, [isOpen]);
 
   return (
     <BaseModal isOpen={isOpen} setIsOpen={setIsOpen} isLoading={isLoading}>
@@ -143,9 +149,10 @@ function AddTransactionModal({
           >
             Змінити баланс?:
             <input
-              id="default-checkbox"
+              id="changeBalance"
               type="checkbox"
-              value=""
+              checked={form.values.changeBalance}
+              onChange={form.handleChange}
               className="w-5 h-5 rounded accent-primary-100"
             />
           </label>

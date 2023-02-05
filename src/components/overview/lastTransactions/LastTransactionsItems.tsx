@@ -18,7 +18,10 @@ function LastTransactionsItems({ title, date, suma }: IProps) {
             suma ? 'text-lime' : 'text-red'
           }`}
         >
-          <FontAwesomeIcon icon={suma >= 0 ? faPlus : faMinus} />
+          <FontAwesomeIcon
+            className={suma >= 0 ? 'text-lime' : 'text-red'}
+            icon={suma >= 0 ? faPlus : faMinus}
+          />
         </div>
         <div className="flex flex-col justify-between gap-2">
           <div className="tablet:text-lg leading-5">{title}</div>

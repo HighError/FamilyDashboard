@@ -8,6 +8,7 @@ import Router from 'next/router';
 
 import AuthFormItem from '@/components/auth/AuthFormItem';
 import ShowErrorMessage from '@/utils/errorCode';
+import Link from 'next/link';
 
 interface FormValue {
   username: string;
@@ -120,6 +121,13 @@ const Login: NextPage = () => {
           {isLoading ? 'Вхід...' : 'Увійти'}
         </button>
       </form>
+      <div className="select-none">
+        Ще не маєте аккаунта?{' '}
+        <Link href="/register" className="text-primary-150 cursor-pointer">
+          Зареєструйтесь
+        </Link>{' '}
+        зараз.
+      </div>
     </div>
   );
 };

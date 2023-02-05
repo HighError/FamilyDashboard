@@ -23,7 +23,7 @@ export default async function handler(
 
     switch (requestMethod) {
       case 'POST':
-        if (!userID || !data || !changeBalance) {
+        if (!userID || !data) {
           throw new HttpError(400, 'ERR_MISSING_PARAMS');
         }
 

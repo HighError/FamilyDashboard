@@ -23,7 +23,9 @@ export default async function handler(
           throw new HttpError(400, 'ERR_MISSING_PARAMS');
         }
 
-        const user = await User.findOne({ telegram: id });
+        const user = await User.findOne({ telegram: id })
+          .populate('subscriptions')
+          .populate('transactions');
         if (!user) {
           throw new HttpError(400, 'ERR_USER_NOT_FOUND');
         }
