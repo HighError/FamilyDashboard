@@ -30,8 +30,8 @@ export default async function handler(
           throw new HttpError(400, 'ERR_INVALID_PARAMS');
         }
 
-        const user = await User.findById(userID);
-        if (!user) {
+        const updateUser = await User.findById(userID);
+        if (!updateUser) {
           throw new HttpError(400, 'ERR_USER_NOT_FOUND');
         }
 
@@ -40,12 +40,37 @@ export default async function handler(
           throw new HttpError(400, 'ERR_SUB_NOT_FOUND');
         }
 
-        user.subscriptions.push(sub);
+        updateUser.subscriptions.push(sub);
 
-        await user.save();
+        await updateUser.save();
+        return res.status(200).send('OK');
+      case 'DELETE':
+        if (!userID || !subID) {
+          throw new HttpError(400, 'ERR_MISSING_PARAMS');
+        }
+
+        if (
+          !mongoose.isValidObjectId(userID) ||
+          !mongoose.isValidObjectId(subID)
+        ) {
+          throw new HttpError(400, 'ERR_INVALID_PARAMS');
+        }
+
+        const removeSubUser = await User.findById(userID);
+        if (!removeSubUser) {
+          throw new HttpError(400, 'ERR_USER_NOT_FOUND');
+        }
+
+        for (let i = 0; i < removeSubUser.subscriptions.length; i += 1) {
+          if (removeSubUser.subscriptions[i].toString() === subID) {
+            removeSubUser.subscriptions.splice(i, 1);
+            break;
+          }
+        }
+        await removeSubUser.save();
         return res.status(200).send('OK');
       default:
-        return res.status(405).send('Only PUT method allowed!');
+        return res.status(405).send('Only PUT/DELETE method allowed!');
     }
   } catch (err) {
     if (err instanceof HttpError) {

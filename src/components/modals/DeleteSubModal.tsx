@@ -24,7 +24,7 @@ function DeleteSubModal({
   sub,
   updateData,
 }: IProps) {
-  const { user } = useContext(UserContext);
+  const { user, updateUser } = useContext(UserContext);
 
   async function remove() {
     try {
@@ -32,6 +32,7 @@ function DeleteSubModal({
       await axios.delete('/api/subs', { data: { id: sub?._id ?? '' } });
       toast.success('Підписку успішно видалено');
       await updateData();
+      await updateUser();
       setIsOpen({
         modal: null,
         data: null,

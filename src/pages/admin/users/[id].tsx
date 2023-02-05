@@ -1,6 +1,8 @@
 import PaymentLink from '@/components/admin/PaymentLink';
 import Subs from '@/components/admin/Subs';
+import Transactios from '@/components/admin/Transactions';
 import UserBalance from '@/components/admin/UserBalance';
+import { ITransaction } from '@/model/Transaction';
 import { IUser } from '@/model/User';
 import ShowErrorMessage from '@/utils/errorCode';
 import axios from 'axios';
@@ -38,12 +40,19 @@ function AdminEditUser() {
     const notification = toast.loading('Завантаження данних...');
     try {
       const res = await axios.get(`/api/user/id/${id}`);
-      setData(res.data);
       toast.update(notification, {
         render: 'Дані загружені',
         type: 'success',
         isLoading: false,
       });
+
+      res.data.transactions.sort((a: ITransaction, b: ITransaction) => {
+        const dateA = +new Date(a.date);
+        const dateB = +new Date(b.date);
+        return dateB - dateA;
+      });
+
+      setData(res.data);
 
       setTimeout(() => {
         toast.dismiss(notification);
@@ -84,6 +93,13 @@ function AdminEditUser() {
         isLoading={isLoading}
         setIsLoading={setIsLoading}
         data={data?.subscriptions ?? []}
+        userID={data._id}
+        updateData={UpdateData}
+      />
+      <Transactios
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        data={data?.transactions ?? []}
         userID={data._id}
         updateData={UpdateData}
       />

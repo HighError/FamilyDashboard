@@ -36,9 +36,9 @@ function Transactions() {
     }
     const temp: ITransaction[] = [...user.transactions];
     temp.sort((a, b) => {
-      if (a.date > b.date) return -1 * sorting;
-      if (a.date < b.date) return 1 * sorting;
-      return 0;
+      const dateA = +new Date(a.date);
+      const dateB = +new Date(b.date);
+      return (dateB - dateA) * sorting;
     });
     setTransactions(temp);
   }, [sorting, user]);

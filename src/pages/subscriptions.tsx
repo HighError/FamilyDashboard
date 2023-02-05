@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { UserContext } from '@/context/UserContext';
 import Subscription from '@/components/Subscription';
 import { getSession, GetSessionParams } from 'next-auth/react';
+import unidque from 'unidque';
 
 export async function getServerSideProps(
   context: GetSessionParams | undefined
@@ -39,7 +40,7 @@ function Subscriptions() {
     <div className="grid grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-3 gap-4">
       {user.subscriptions.map((e) => (
         <Subscription
-          key={e._id}
+          key={(Math.random() + 1).toString(36).substring(7)}
           title={e.title}
           icon={e.icon}
           cost={e.cost}

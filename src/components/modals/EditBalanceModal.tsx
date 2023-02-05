@@ -1,10 +1,11 @@
+import { UserContext } from '@/context/UserContext';
 import { IUser } from '@/model/User';
 import { ModalType } from '@/types/Modal';
 import ShowErrorMessage from '@/utils/errorCode';
 import { ConvertBalance } from '@/utils/money';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import BaseModal from '../BaseModal';
 
@@ -25,6 +26,7 @@ function EditBalanceModal({
   user,
   updateData,
 }: IProps) {
+  const userContext = useContext(UserContext);
   const form = useFormik({
     initialValues: {
       balance: 0,
@@ -39,6 +41,10 @@ function EditBalanceModal({
       try {
         await axios.put('/api/user/balance', data);
         toast.success('Баланс користувача успішно оновлений');
+
+        if (user?._id === userContext.user?._id) {
+          await userContext.updateUser();
+        }
 
         await updateData();
         form.resetForm();

@@ -16,9 +16,15 @@ interface IProps {
 interface IUserContext {
   user?: IUser;
   isLoading: boolean;
+  updateUser: () => Promise<void>;
 }
 
-export const UserContext = createContext<IUserContext>({ isLoading: true });
+export const UserContext = createContext<IUserContext>({
+  isLoading: true,
+  updateUser: async () => {
+    return;
+  },
+});
 
 function UserProvider({ children }: IProps) {
   const { status } = useSession();
@@ -51,7 +57,7 @@ function UserProvider({ children }: IProps) {
   }, [status, updateUser]);
 
   return (
-    <UserContext.Provider value={{ user, isLoading }}>
+    <UserContext.Provider value={{ user, isLoading, updateUser }}>
       {children}
     </UserContext.Provider>
   );

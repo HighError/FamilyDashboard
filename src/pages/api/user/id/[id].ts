@@ -20,7 +20,9 @@ export default async function handler(
         if (!mongoose.isValidObjectId(id)) {
           throw new HttpError(400, 'ERR_INVALID_PARAMS');
         }
-        const user = await User.findById(id).populate('subscriptions');
+        const user = await User.findById(id)
+          .populate('subscriptions')
+          .populate('transactions');
         if (!user) {
           throw new HttpError(400, 'ERR_USER_NOT_FOUND');
         }

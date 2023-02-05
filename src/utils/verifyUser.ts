@@ -5,6 +5,12 @@ import { UserAuthData } from '@/types/UserAuthData';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 
+export async function verifyTelegramAuth(
+  req: NextApiRequest
+): Promise<boolean> {
+  return req.headers.authorization === `API-KEY ${process.env.TELEGRAM_APIKEY}`;
+}
+
 export async function verifyAdmin(
   req: NextApiRequest,
   res: NextApiResponse

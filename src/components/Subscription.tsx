@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { IconType } from '@/types/Icon';
 import { GetForamtedData } from '@/utils/date';
 import Icons from './Icons';
@@ -31,12 +30,5 @@ function Subscription({ title, icon, cost, date }: IProps) {
     </div>
   );
 }
-
-Subscription.propTypes = {
-  title: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
-  cost: PropTypes.number.isRequired,
-  date: PropTypes.string.isRequired,
-};
 
 export default Subscription;

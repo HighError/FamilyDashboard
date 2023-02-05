@@ -2,7 +2,6 @@ import { UserContext } from '@/context/UserContext';
 import { ModalType } from '@/types/Modal';
 import ShowErrorMessage from '@/utils/errorCode';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import React, { Dispatch, SetStateAction, useContext } from 'react';
 import { toast } from 'react-toastify';
 import BaseModal from '../BaseModal';
@@ -12,26 +11,41 @@ interface IProps {
   setIsOpen: Dispatch<SetStateAction<ModalType>>;
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+  userID: string;
+  transactionID?: string;
+  updateData: () => Promise<void>;
 }
 
-function TelegramUnlinkModal({
+function DeleteTransactionModal({
   isOpen,
   setIsOpen,
   isLoading,
   setIsLoading,
+  transactionID,
+  userID,
+  updateData,
 }: IProps) {
   const { user, updateUser } = useContext(UserContext);
 
-  async function unlink() {
+  async function remove() {
     try {
       setIsLoading(true);
-      await axios.delete('/api/user/telegram');
-      toast.success("Телеграм успішно відв'язано.");
-      await updateUser();
+      await axios.delete('/api/transactions', {
+        data: { transactionID: transactionID, userID: userID },
+      });
+      toast.success('Транзакцію успішно видалено');
+      if (user?._id === userID) {
+        await updateUser();
+      }
+      await updateData();
+      setIsOpen({
+        modal: null,
+        data: null,
+      });
     } catch (err) {
-      setIsLoading(false);
       ShowErrorMessage(err);
     }
+    setIsLoading(false);
   }
 
   if (!user) {
@@ -41,8 +55,8 @@ function TelegramUnlinkModal({
   return (
     <BaseModal isOpen={isOpen} setIsOpen={setIsOpen} isLoading={isLoading}>
       <div className="flex flex-col">
-        <div className="text-2xl font-semibold mb-5">Телеграм</div>
-        <div className="mb-3">Ви дісйно хочете відв&apos;язати телеграм?</div>
+        <div className="text-2xl font-semibold mb-5">Видалення транзакції</div>
+        <div className="mb-3">Ви дійсно хочете видалити транзакцію?</div>
         <div className="flex flex-row items-center justify-between mt-5">
           <button
             type="button"
@@ -60,10 +74,10 @@ function TelegramUnlinkModal({
           <button
             type="button"
             disabled={isLoading}
-            onClick={() => unlink()}
+            onClick={() => remove()}
             className="bg-primary-100 hover:bg-primary-150 disabled:bg-gray-100 duration-300 px-3 py-2 rounded-lg"
           >
-            Відв&apos;язати
+            Видалити
           </button>
         </div>
       </div>
@@ -71,4 +85,4 @@ function TelegramUnlinkModal({
   );
 }
 
-export default TelegramUnlinkModal;
+export default DeleteTransactionModal;

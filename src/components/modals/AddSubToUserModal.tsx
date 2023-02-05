@@ -1,3 +1,4 @@
+import { UserContext } from '@/context/UserContext';
 import { ISubscription } from '@/model/Subscription';
 import { ModalType } from '@/types/Modal';
 import ShowErrorMessage from '@/utils/errorCode';
@@ -7,6 +8,7 @@ import React, {
   Dispatch,
   SetStateAction,
   useCallback,
+  useContext,
   useEffect,
   useState,
 } from 'react';
@@ -31,6 +33,7 @@ function AddSubToUserModal({
   updateData,
 }: IProps) {
   const [subs, setSubs] = useState<ISubscription[]>([]);
+  const { user, updateUser } = useContext(UserContext);
   const form = useFormik({
     initialValues: {
       sub: '',
@@ -47,6 +50,9 @@ function AddSubToUserModal({
         toast.success('Підписка додана користувачу');
 
         await updateData();
+        if (user?._id === userID) {
+          await updateUser();
+        }
         form.resetForm();
         setIsOpen({
           modal: null,

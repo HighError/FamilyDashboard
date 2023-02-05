@@ -3,10 +3,11 @@ import { ModalType } from '@/types/Modal';
 import ShowErrorMessage from '@/utils/errorCode';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import BaseModal from '../BaseModal';
 import isURL from 'validator/lib/isURL';
+import { UserContext } from '@/context/UserContext';
 
 interface IProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ function EditPaymentLink({
   user,
   updateData,
 }: IProps) {
+  const userContext = useContext(UserContext);
   const form = useFormik({
     initialValues: {
       paymentLink: '',
@@ -44,7 +46,11 @@ function EditPaymentLink({
 
       try {
         await axios.put('/api/user/payment-link', data);
-        toast.success('Баланс користувача успішно оновлений');
+        toast.success('Посилання для оплати успішно змінено');
+
+        if (user?._id === userContext.user?._id) {
+          await userContext.updateUser();
+        }
 
         await updateData();
         form.resetForm();
