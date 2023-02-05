@@ -17,6 +17,7 @@ import '@/styles/loading.css';
 import '@/styles/errors.css';
 import '@/styles/accordion.css';
 import 'react-toastify/dist/ReactToastify.css';
+import Head from 'next/head';
 
 export default function App({
   Component,
@@ -37,6 +38,9 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <UserProvider>
+        <Head>
+          <title>Family Dashboard</title>
+        </Head>
         {route ? (
           <Layout
             title={route.title}
