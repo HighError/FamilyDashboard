@@ -32,7 +32,7 @@ export default async function handler(
         });
 
         await newSub.save();
-        return res.status(200).send('OK');
+        return res.status(200).json('OK');
       case 'PUT':
         if (!id || !data) {
           throw new HttpError(400, 'ERR_MISSING_PARAMS');
@@ -48,7 +48,7 @@ export default async function handler(
         }
 
         await Subscription.findByIdAndUpdate(id, editSub);
-        return res.status(200).send('OK');
+        return res.status(200).json('OK');
       case 'DELETE':
         if (!id) {
           throw new HttpError(400, 'ERR_MISSING_PARAMS');
@@ -59,14 +59,14 @@ export default async function handler(
         }
 
         await Subscription.findByIdAndRemove(id);
-        return res.status(200).send('OK');
+        return res.status(200).json('OK');
       default:
-        return res.status(405).send('Only GET/POST/PUT/DELETE method allowed!');
+        return res.status(405).json('Only GET/POST/PUT/DELETE method allowed!');
     }
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.code).send(err.message);
+      return res.status(err.code).json(err.message);
     }
-    res.status(500).send('ERR_UNKNOWN');
+    res.status(500).json('ERR_UNKNOWN');
   }
 }

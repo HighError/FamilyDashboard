@@ -34,7 +34,7 @@ export default async function handler(
         });
 
         await newKey.save();
-        return res.status(200).send(newKey.key);
+        return res.status(200).json(newKey.key);
       case 'DELETE':
         if (!user) {
           throw new HttpError(400, 'ERR_USER_NOT_FOUND');
@@ -47,14 +47,14 @@ export default async function handler(
         user.telegram = '';
 
         await user.save();
-        return res.status(200).send('OK!');
+        return res.status(200).json('OK!');
       default:
-        return res.status(405).send('Only POST/DELETE method allowed!');
+        return res.status(405).json('Only POST/DELETE method allowed!');
     }
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.code).send(err.message);
+      return res.status(err.code).json(err.message);
     }
-    res.status(500).send('ERR_UNKNOWN');
+    res.status(500).json('ERR_UNKNOWN');
   }
 }
