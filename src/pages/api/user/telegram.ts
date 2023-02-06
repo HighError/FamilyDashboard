@@ -29,7 +29,7 @@ export default async function handler(
 
         const newKey: ITemporaryKey = new TemporaryKey({
           user: user._id,
-          key: unidque().toString(),
+          key: unidque().toString().replace('.', '_'),
           date: moment().add(10, 'm'),
         });
 

@@ -3,7 +3,6 @@ import { useContext, useState } from 'react';
 import { faTelegram } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import ShowErrorMessage from '@/utils/errorCode';
 import TelegramUnlinkModal from '../modals/TelegramUnlinkModal';
 import { ModalType } from '@/types/Modal';
@@ -16,20 +15,23 @@ function Telegram() {
     data: null,
   });
 
-  async function link() {
-    try {
-      setIsLoading(true);
-      const res = await axios.post('/api/user/telegram/');
-      toast.info("Слідуйте інструкціям в боті для успішної прив'язки!");
-      setTimeout(() => {
-        window.open(
-          `${process.env.NEXT_PUBLIC_TELEGRAM_URL}?start=${res.data}`
-        );
-      }, 2000);
-    } catch (err) {
-      ShowErrorMessage(err);
-    }
-    setIsLoading(false);
+  function link() {
+    setIsLoading(true);
+    const windowReference = window.open();
+    axios
+      .post('/api/user/telegram/')
+      .then((res) => {
+        if (windowReference) {
+          windowReference.location = `${process.env.NEXT_PUBLIC_TELEGRAM_URL}?start=${res.data}`;
+        }
+      })
+      .catch((err) => {
+        if (windowReference) {
+          windowReference.close();
+          ShowErrorMessage(err);
+        }
+      })
+      .finally(() => setIsLoading(false));
   }
 
   if (!user) {

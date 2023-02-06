@@ -42,8 +42,9 @@ function BalanceModal({ isOpen, setIsOpen, isLoading }: IProps) {
           className="px-3 py-2 bg-primary-100 hover:bg-primary-150 rounded-lg"
           type="button"
           onClick={() => {
-            navigator.clipboard.writeText(user._id);
-            window.open(user.paymentLink);
+            navigator.clipboard.writeText(user._id).then(() => {
+              window.open(user.paymentLink);
+            });
           }}
         >
           Скопіювати ID та перейти
