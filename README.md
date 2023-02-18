@@ -30,6 +30,12 @@ To run this project, you will need to add the following environment variables to
 
 `NEXTAUTH_SECRET` - Another secret key (required for authorization)
 
+`NEXT_PUBLIC_TELEGRAM_TOKEN` - Telegram bot token for notification
+
+`INNGEST_SIGNING_KEY` - Key from inngest service from cron (auto setup on vercel)
+
+`INNGEST_EVENT_KEY` - Event key from inngest service from cron (auto setup on vercel)
+
 ## Run Locally
 
 Clone the project

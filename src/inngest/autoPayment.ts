@@ -2,6 +2,8 @@ import dbConnect from '@/lib/dbconnect';
 import Subscription from '@/model/Subscription';
 import Transaction from '@/model/Transaction';
 import User, { IUser } from '@/model/User';
+import { ConvertBalance } from '@/utils/money';
+import axios from 'axios';
 import { Inngest } from 'inngest';
 import moment from 'moment';
 
@@ -34,6 +36,23 @@ export default inngest.createFunction(
             user.balance -= sub.cost;
             user.transactions.push(transaction);
             await user.save();
+            if (user.telegram) {
+              const data = {
+                chat_id: user.telegram,
+                text: `✅ <b>ОПЛАТА ПІДПИСКИ</b>\n🔖 Назва підписки: <i>${
+                  sub.title
+                }</i>\n💰 Сумма щомісячного платежу: <i>${ConvertBalance(
+                  sub.cost
+                )}</i>\n💳 Залишок на рахунку: <i>${ConvertBalance(
+                  user.balance
+                )}</i>\n\n<i>P.S.  Дякуємо, що користуєтесь нашими послугами🥰</i>`,
+                parse_mode: 'HTML',
+              };
+              await axios.post(
+                `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TELEGRAM_TOKEN}/sendMessage`,
+                data
+              );
+            }
           }
         });
       })
