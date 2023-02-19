@@ -42,8 +42,6 @@ export default inngest.createFunction(
                   sub.title
                 }</i>\n💰 Сумма щомісячного платежу: <i>${ConvertBalance(
                   sub.cost
-                )}</i>\n💳 Залишок на рахунку: <i>${ConvertBalance(
-                  user.balance
                 )}</i>\n\n<i>P.S.  Дякуємо, що користуєтесь нашими послугами🥰</i>`,
                 parse_mode: 'HTML',
               };
@@ -53,8 +51,8 @@ export default inngest.createFunction(
               );
             }
           }
+          await user.save();
         });
-        await user.save();
       })
     );
 
