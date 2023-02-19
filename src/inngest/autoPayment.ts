@@ -32,9 +32,8 @@ export default inngest.createFunction(
               suma: -sub.cost,
               date: new Date(),
             });
-            await transaction.save();
-            user.balance -= sub.cost;
             user.transactions.push(transaction);
+            user.balance -= sub.cost;
             if (user.telegram) {
               const data = {
                 chat_id: user.telegram,
@@ -50,9 +49,10 @@ export default inngest.createFunction(
                 data
               );
             }
+            await transaction.save();
           }
-          await user.save();
         });
+        await user.save();
       })
     );
 
