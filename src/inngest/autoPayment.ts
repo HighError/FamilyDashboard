@@ -35,7 +35,6 @@ export default inngest.createFunction(
             await transaction.save();
             user.balance -= sub.cost;
             user.transactions.push(transaction);
-            await user.save();
             if (user.telegram) {
               const data = {
                 chat_id: user.telegram,
@@ -55,6 +54,7 @@ export default inngest.createFunction(
             }
           }
         });
+        await user.save();
       })
     );
 
