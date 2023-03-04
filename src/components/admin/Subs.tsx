@@ -26,6 +26,7 @@ function Subs({ isLoading, setIsLoading, data, userID, updateData }: IProps) {
     modal: null,
     data: null,
   });
+
   return (
     <div>
       <AddSubToUserModal

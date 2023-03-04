@@ -4,6 +4,7 @@ import User from '@/model/User';
 import { verifyAdmin } from '@/utils/verifyUser';
 import { NextApiRequest, NextApiResponse } from 'next';
 import mongoose from 'mongoose';
+import axios from 'axios';
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,7 +12,7 @@ export default async function handler(
 ) {
   try {
     await dbConnect();
-    await verifyAdmin(req, res);
+    await verifyAdmin(req);
 
     const requestMethod = req.method;
     switch (requestMethod) {
@@ -41,6 +42,13 @@ export default async function handler(
     if (err instanceof HttpError) {
       return res.status(err.code).json(err.message);
     }
+
+    if (axios.isAxiosError(err)) {
+      if (err.response?.status === 401) {
+        return res.status(401).send('ERR_NEED_AUTHORIZATION');
+      }
+    }
+
     res.status(500).json('ERR_UNKNOWN');
   }
 }

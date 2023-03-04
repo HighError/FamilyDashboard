@@ -1,12 +1,12 @@
-import { UserContext } from '@/context/UserContext';
 import { ISubscription } from '@/model/Subscription';
 import { ModalType } from '@/types/Modal';
 import { GetDataForInput } from '@/utils/date';
 import ShowErrorMessage from '@/utils/errorCode';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import React, { Dispatch, SetStateAction, useContext, useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { mutate } from 'swr';
 import BaseModal from '../BaseModal';
 
 interface IProps {
@@ -26,7 +26,6 @@ function EditSubModal({
   sub,
   updateData,
 }: IProps) {
-  const { updateUser } = useContext(UserContext);
   const form = useFormik({
     initialValues: {
       title: '',
@@ -50,7 +49,7 @@ function EditSubModal({
         await axios.put('/api/subs', data);
         toast.success('Підписка успішно оновлена');
 
-        await updateUser();
+        await mutate('/api/user');
 
         await updateData();
         form.resetForm();

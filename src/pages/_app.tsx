@@ -1,6 +1,5 @@
 // Libraries
 import React, { useEffect, useState } from 'react';
-import { SessionProvider } from 'next-auth/react';
 import { ToastContainer } from 'react-toastify';
 import { useRouter } from 'next/router';
 import type { AppProps } from 'next/app';
@@ -9,7 +8,7 @@ import type { AppProps } from 'next/app';
 import Layout from '@/components/Layout';
 import { IRoutes, routes } from '@/lib/routes';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
-import UserProvider from '@/context/UserContext';
+import UserProvider from '@/contexts/UserContext';
 
 // CSS
 import '@/styles/globals.css';
@@ -18,10 +17,14 @@ import '@/styles/errors.css';
 import '@/styles/accordion.css';
 import 'react-toastify/dist/ReactToastify.css';
 import Head from 'next/head';
+import axios from 'axios';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+
+axios.defaults.withCredentials = true;
 
 export default function App({
   Component,
-  pageProps: { session, ...pageProps },
+  pageProps: { ...pageProps },
 }: AppProps) {
   const { asPath } = useRouter();
   const { width } = useWindowDimensions();
@@ -36,7 +39,13 @@ export default function App({
   }, [width]);
 
   return (
-    <SessionProvider session={session}>
+    <GoogleReCaptchaProvider
+      reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ''}
+      scriptProps={{
+        async: true,
+        defer: true,
+      }}
+    >
       <UserProvider>
         <Head>
           <title>Family Dashboard</title>
@@ -61,6 +70,6 @@ export default function App({
           theme="dark"
         />
       </UserProvider>
-    </SessionProvider>
+    </GoogleReCaptchaProvider>
   );
 }

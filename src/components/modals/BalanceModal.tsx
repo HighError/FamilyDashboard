@@ -1,4 +1,4 @@
-import { UserContext } from '@/context/UserContext';
+import { UserContext } from '@/contexts/UserContext';
 import { ModalType } from '@/types/Modal';
 import React, { Dispatch, SetStateAction, useContext } from 'react';
 import BaseModal from '../BaseModal';
@@ -42,7 +42,7 @@ function BalanceModal({ isOpen, setIsOpen, isLoading }: IProps) {
           className="px-3 py-2 bg-primary-100 hover:bg-primary-150 rounded-lg"
           type="button"
           onClick={() => {
-            navigator.clipboard.writeText(user._id).then(() => {
+            navigator.clipboard.writeText(user.id).then(() => {
               window.open(user.paymentLink);
             });
           }}

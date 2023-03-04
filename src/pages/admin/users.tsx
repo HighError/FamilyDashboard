@@ -1,31 +1,12 @@
 import AdminUser from '@/components/AdminUser';
-import { IUser } from '@/model/User';
+import IUserExtended from '@/types/IUserContext';
 import ShowErrorMessage from '@/utils/errorCode';
 import axios from 'axios';
-import { getSession, GetSessionParams } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-
-export async function getServerSideProps(
-  context: GetSessionParams | undefined
-) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { session },
-  };
-}
 
 function AdminUsers() {
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState<IUser[]>([]);
+  const [data, setData] = useState<IUserExtended[]>([]);
 
   async function UpdateData() {
     setIsLoading(true);
@@ -46,8 +27,8 @@ function AdminUsers() {
     <div className="grid grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-3 gap-3">
       {data.map((e) => (
         <AdminUser
-          key={e._id}
-          id={e._id}
+          key={e.id}
+          id={e.id}
           name={e.username}
           email={e.email}
           isLoading={isLoading}

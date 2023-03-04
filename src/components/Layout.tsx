@@ -1,5 +1,5 @@
-import { UserContext } from '@/context/UserContext';
-import { useRouter } from 'next/router';
+import { UserContext } from '@/contexts/UserContext';
+import Router from 'next/router';
 import { Dispatch, ReactNode, SetStateAction, useContext } from 'react';
 import Header from './Header';
 import Loading from './Loading';
@@ -20,13 +20,12 @@ function Layout({
   showSidebar,
   setShowSidebar,
 }: IProps) {
-  const router = useRouter();
   const { user, isLoading } = useContext(UserContext);
   if (isLoading) {
     return <Loading />;
   }
   if (!user) {
-    router.replace('/login');
+    Router.push(`${process.env.NEXT_PUBLIC_ID_URL ?? ''}/login`);
     return <div />;
   }
   return (

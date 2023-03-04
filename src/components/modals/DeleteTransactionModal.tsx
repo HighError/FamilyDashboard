@@ -1,9 +1,10 @@
-import { UserContext } from '@/context/UserContext';
+import { UserContext } from '@/contexts/UserContext';
 import { ModalType } from '@/types/Modal';
 import ShowErrorMessage from '@/utils/errorCode';
 import axios from 'axios';
 import React, { Dispatch, SetStateAction, useContext } from 'react';
 import { toast } from 'react-toastify';
+import { mutate } from 'swr';
 import BaseModal from '../BaseModal';
 
 interface IProps {
@@ -25,7 +26,7 @@ function DeleteTransactionModal({
   userID,
   updateData,
 }: IProps) {
-  const { user, updateUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   async function remove() {
     try {
@@ -34,8 +35,8 @@ function DeleteTransactionModal({
         data: { transactionID: transactionID, userID: userID },
       });
       toast.success('Транзакцію успішно видалено');
-      if (user?._id === userID) {
-        await updateUser();
+      if (user?._id.toString() === userID) {
+        await mutate('/api/user');
       }
       await updateData();
       setIsOpen({

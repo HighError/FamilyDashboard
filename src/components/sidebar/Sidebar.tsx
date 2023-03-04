@@ -9,11 +9,10 @@ import {
   faTableColumns,
   faMoneyBillTransfer,
   faFileInvoiceDollar,
-  faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import SidebarItem from './SidebarItem';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
-import { UserContext } from '@/context/UserContext';
+import { UserContext } from '@/contexts/UserContext';
 
 interface IProps {
   showSidebar: boolean;
@@ -59,12 +58,6 @@ function Sidebar({ showSidebar, setShowSidebar }: IProps) {
               icon={faMoneyBillTransfer}
               title="Транзакції"
               route="/transactions"
-              setShowSidebar={setShowSidebar}
-            />
-            <SidebarItem
-              icon={faUser}
-              title="Профіль"
-              route="/profile"
               setShowSidebar={setShowSidebar}
             />
             {user?.role === 'admin' && (

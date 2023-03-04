@@ -3,6 +3,7 @@ import dbConnect from '@/lib/dbconnect';
 import Transaction, { ITransaction } from '@/model/Transaction';
 import User, { IUser } from '@/model/User';
 import { verifyAdmin } from '@/utils/verifyUser';
+import axios from 'axios';
 import mongoose from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -12,7 +13,7 @@ export default async function handler(
 ) {
   try {
     await dbConnect();
-    await verifyAdmin(req, res);
+    await verifyAdmin(req);
 
     const requestMethod = req.method;
     const { userID, data, changeBalance, transactionID } = req.body;
@@ -72,6 +73,12 @@ export default async function handler(
   } catch (err) {
     if (err instanceof HttpError) {
       return res.status(err.code).json(err.message);
+    }
+
+    if (axios.isAxiosError(err)) {
+      if (err.response?.status === 401) {
+        return res.status(401).send('ERR_NEED_AUTHORIZATION');
+      }
     }
     res.status(500).json('ERR_UNKNOWN');
   }

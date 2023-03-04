@@ -1,26 +1,6 @@
 import React, { useContext } from 'react';
-import { UserContext } from '@/context/UserContext';
+import { UserContext } from '@/contexts/UserContext';
 import Subscription from '@/components/Subscription';
-import { getSession, GetSessionParams } from 'next-auth/react';
-import unidque from 'unidque';
-
-export async function getServerSideProps(
-  context: GetSessionParams | undefined
-) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { session },
-  };
-}
 
 function Subscriptions() {
   const { user } = useContext(UserContext);

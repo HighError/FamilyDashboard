@@ -1,9 +1,8 @@
-import { signOut } from 'next-auth/react';
 import Image from 'next/image';
-import { faBars, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dispatch, SetStateAction, useContext } from 'react';
-import { UserContext } from '@/context/UserContext';
+import { UserContext } from '@/contexts/UserContext';
 import md5 from 'md5';
 
 interface IProps {
@@ -42,14 +41,14 @@ function Header({ title, subtitle, setShowSidebar }: IProps) {
           className="rounded-full w-12 h-12 mr-4"
         />
         <div>{user.username}</div>
-        <div
+        {/* <div
           role="menuitem"
           className="text-xl p-2 hover:text-primary-200 duration-300 cursor-pointer ml-2"
-          onClick={() => signOut()}
+          onClick={() => logout()}
           aria-hidden="true"
         >
           <FontAwesomeIcon icon={faRightFromBracket} />
-        </div>
+        </div> */}
       </div>
     </div>
   );

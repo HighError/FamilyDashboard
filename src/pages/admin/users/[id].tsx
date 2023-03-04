@@ -6,28 +6,9 @@ import { ITransaction } from '@/model/Transaction';
 import { IUser } from '@/model/User';
 import ShowErrorMessage from '@/utils/errorCode';
 import axios from 'axios';
-import { getSession, GetSessionParams } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-
-export async function getServerSideProps(
-  context: GetSessionParams | undefined
-) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { session },
-  };
-}
 
 function AdminEditUser() {
   const router = useRouter();
@@ -93,14 +74,14 @@ function AdminEditUser() {
         isLoading={isLoading}
         setIsLoading={setIsLoading}
         data={data?.subscriptions ?? []}
-        userID={data._id}
+        userID={data._id.toString()}
         updateData={UpdateData}
       />
       <Transactios
         isLoading={isLoading}
         setIsLoading={setIsLoading}
         data={data?.transactions ?? []}
-        userID={data._id}
+        userID={data._id.toString()}
         updateData={UpdateData}
       />
     </div>

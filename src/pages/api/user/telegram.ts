@@ -6,6 +6,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import TemporaryKey, { ITemporaryKey } from '@/model/TemporaryKey';
 import moment from 'moment';
 import unidque from 'unidque';
+import axios from 'axios';
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,7 +14,7 @@ export default async function handler(
 ) {
   try {
     await dbConnect();
-    const id = await verifyUser(req, res);
+    const id = await verifyUser(req);
     const user = await User.findById(id);
 
     const requestMethod = req.method;
@@ -54,6 +55,12 @@ export default async function handler(
   } catch (err) {
     if (err instanceof HttpError) {
       return res.status(err.code).json(err.message);
+    }
+
+    if (axios.isAxiosError(err)) {
+      if (err.response?.status === 401) {
+        return res.status(401).send('ERR_NEED_AUTHORIZATION');
+      }
     }
     res.status(500).json('ERR_UNKNOWN');
   }

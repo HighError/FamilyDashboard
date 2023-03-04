@@ -1,38 +1,21 @@
-import { model, Schema, Document, models } from 'mongoose';
+import { model, Schema, Document, models, ObjectId } from 'mongoose';
 import { ISubscription } from './Subscription';
 import { ITransaction } from './Transaction';
 
 export interface IUser extends Document {
-  username: string;
-  email: string;
-  password?: string;
+  _id: ObjectId;
   balance: number;
   subscriptions: ISubscription[];
   transactions: ITransaction[];
   role: 'default' | 'admin' | 'unknown';
   paymentLink: string;
   telegram: string;
-  tokens: string[];
 }
 
 export const userSchema: Schema = new Schema({
-  username: {
-    type: String,
-    index: true,
-    unique: true,
-    minlength: 3,
-    maxlength: 20,
+  _id: {
+    type: Schema.Types.ObjectId,
     required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    select: false,
   },
   balance: {
     type: Number,
@@ -64,7 +47,6 @@ export const userSchema: Schema = new Schema({
     type: String,
     default: '',
   },
-  tokens: [String],
 });
 
 const User = models.User || model<IUser>('User', userSchema);

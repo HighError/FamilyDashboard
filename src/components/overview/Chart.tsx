@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import dynamic from 'next/dynamic';
 import { ApexOptions } from 'apexcharts';
 import moment from 'moment';
-import { UserContext } from '@/context/UserContext';
+import { UserContext } from '@/contexts/UserContext';
 import 'moment/locale/uk';
 import { ITransaction } from '@/model/Transaction';
 

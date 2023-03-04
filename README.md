@@ -26,15 +26,17 @@ To run this project, you will need to add the following environment variables to
 
 `NEXT_PUBLIC_TELEGRAM_URL` - Link to Telegram bot
 
-`NEXTAUTH_JWT_SECRET` - Secret key (required for authorization)
+`API_KEY_ID` - API key for ID system
 
-`NEXTAUTH_SECRET` - Another secret key (required for authorization)
+`NEXT_PUBLIC_ID_URL` - Url ID system
 
 `NEXT_PUBLIC_TELEGRAM_TOKEN` - Telegram bot token for notification
 
 `INNGEST_SIGNING_KEY` - Key from inngest service from cron (auto setup on vercel)
 
 `INNGEST_EVENT_KEY` - Event key from inngest service from cron (auto setup on vercel)
+
+`NEXT_PUBLIC_RECAPTCHA_SITE_KEY` and `RECAPTCHA_SECRET_KEY` - Google ReCaptcha v3 keys
 
 ## Run Locally
 

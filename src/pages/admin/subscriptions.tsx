@@ -11,27 +11,7 @@ import { GetForamtedData } from '../../utils/date';
 import { ConvertBalance } from '../../utils/money';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getSession, GetSessionParams } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-
-export async function getServerSideProps(
-  context: GetSessionParams | undefined
-) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { session },
-  };
-}
-
 function AdminSubscriptions() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<ISubscription[]>([]);

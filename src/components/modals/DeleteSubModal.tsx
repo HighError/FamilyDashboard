@@ -1,10 +1,11 @@
-import { UserContext } from '@/context/UserContext';
+import { UserContext } from '@/contexts/UserContext';
 import { ISubscription } from '@/model/Subscription';
 import { ModalType } from '@/types/Modal';
 import ShowErrorMessage from '@/utils/errorCode';
 import axios from 'axios';
 import React, { Dispatch, SetStateAction, useContext } from 'react';
 import { toast } from 'react-toastify';
+import { mutate } from 'swr';
 import BaseModal from '../BaseModal';
 
 interface IProps {
@@ -24,7 +25,7 @@ function DeleteSubModal({
   sub,
   updateData,
 }: IProps) {
-  const { user, updateUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   async function remove() {
     try {
@@ -32,7 +33,7 @@ function DeleteSubModal({
       await axios.delete('/api/subs', { data: { id: sub?._id ?? '' } });
       toast.success('Підписку успішно видалено');
       await updateData();
-      await updateUser();
+      await mutate('/api/user');
       setIsOpen({
         modal: null,
         data: null,

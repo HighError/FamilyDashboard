@@ -1,4 +1,4 @@
-import { UserContext } from '@/context/UserContext';
+import { UserContext } from '@/contexts/UserContext';
 import { IUser } from '@/model/User';
 import { ModalType } from '@/types/Modal';
 import ShowErrorMessage from '@/utils/errorCode';
@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import React, { Dispatch, SetStateAction, useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { mutate } from 'swr';
 import BaseModal from '../BaseModal';
 
 interface IProps {
@@ -43,7 +44,7 @@ function EditBalanceModal({
         toast.success('Баланс користувача успішно оновлений');
 
         if (user?._id === userContext.user?._id) {
-          await userContext.updateUser();
+          await mutate('/api/user');
         }
 
         await updateData();

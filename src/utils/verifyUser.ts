@@ -1,9 +1,8 @@
 import HttpError from '@/classes/HttpError';
 import User, { IUser } from '@/model/User';
-import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import { UserAuthData } from '@/types/UserAuthData';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth';
+import axios from 'axios';
+import mongoose from 'mongoose';
+import { NextApiRequest } from 'next';
 
 export async function verifyTelegramAuth(
   req: NextApiRequest
@@ -11,26 +10,24 @@ export async function verifyTelegramAuth(
   return req.headers.authorization === `API-KEY ${process.env.TELEGRAM_APIKEY}`;
 }
 
-export async function verifyAdmin(
-  req: NextApiRequest,
-  res: NextApiResponse
-): Promise<string> {
-  const session = await getServerSession(req, res, authOptions);
-  if (!session) {
+export async function verifyAdmin(req: NextApiRequest): Promise<string> {
+  if (!req.headers.cookie) {
     throw new HttpError(401, 'ERR_NEED_AUTHORIZATION');
   }
 
-  const { id, token } = session.user as UserAuthData;
-  if (!id || !token) {
-    throw new HttpError(401, 'ERR_NEED_AUTHORIZATION');
-  }
+  const userID = await axios.get(
+    `${process.env.NEXT_PUBLIC_ID_URL ?? ''}/api/user`,
+    {
+      withCredentials: true,
+      headers: {
+        cookie: req.headers.cookie,
+      },
+    }
+  );
 
-  const user: IUser | null = await User.findById(id);
+  const user: IUser | null = await User.findById(userID.data.user._id);
+
   if (!user) {
-    throw new HttpError(401, 'ERR_NEED_AUTHORIZATION');
-  }
-
-  if (!user.tokens.includes(token)) {
     throw new HttpError(401, 'ERR_NEED_AUTHORIZATION');
   }
 
@@ -38,31 +35,33 @@ export async function verifyAdmin(
     throw new HttpError(403, 'ERR_NEED_ADMIN_AUTHORIZATION');
   }
 
-  return id;
+  return user.id;
 }
 
-export default async function verifyUser(
-  req: NextApiRequest,
-  res: NextApiResponse
-): Promise<string> {
-  const session = await getServerSession(req, res, authOptions);
-  if (!session) {
+export default async function verifyUser(req: NextApiRequest): Promise<string> {
+  if (!req.headers.cookie) {
     throw new HttpError(401, 'ERR_NEED_AUTHORIZATION');
   }
 
-  const { id, token } = session.user as UserAuthData;
-  if (!id || !token) {
-    throw new HttpError(401, 'ERR_NEED_AUTHORIZATION');
-  }
+  const userID = await axios.get(
+    `${process.env.NEXT_PUBLIC_ID_URL ?? ''}/api/user`,
+    {
+      withCredentials: true,
+      headers: {
+        cookie: req.headers.cookie,
+      },
+    }
+  );
 
-  const user: IUser | null = await User.findById(id);
+  const user: IUser | null = await User.findById(userID.data.user._id);
+
   if (!user) {
-    throw new HttpError(401, 'ERR_NEED_AUTHORIZATION');
+    const newUser: IUser = new User({
+      _id: new mongoose.Types.ObjectId(userID.data.user._id),
+    });
+    await newUser.save();
+    return newUser.id;
   }
 
-  if (!user.tokens.includes(token)) {
-    throw new HttpError(401, 'ERR_NEED_AUTHORIZATION');
-  }
-
-  return id;
+  return user.id;
 }

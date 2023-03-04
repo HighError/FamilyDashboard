@@ -21,11 +21,6 @@ export const routes: IRoutes[] = [
     subTitle: 'Ваші транзакції',
   },
   {
-    path: new RegExp('^/profile$'),
-    title: 'Профіль',
-    subTitle: 'Ваш профіль',
-  },
-  {
     path: new RegExp('^/admin/subscriptions$'),
     title: 'Підписки',
     subTitle: 'Керування підписками',

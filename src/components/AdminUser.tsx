@@ -18,7 +18,7 @@ function User({ id, name, email, isLoading }: IProps) {
     <div className="bg-gray-200 rounded-lg flex flex-row items-center justify-between px-3 py-2 gap-2">
       <div className="flex items-center gap-2 overflow-hidden">
         <Image
-          src={`https://www.gravatar.com/avatar/${md5(email)}`}
+          src={`https://www.gravatar.com/avatar/${md5(email ?? '0')}`}
           alt="avatar"
           width={80}
           height={80}

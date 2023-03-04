@@ -1,4 +1,4 @@
-import { UserContext } from '@/context/UserContext';
+import { UserContext } from '@/contexts/UserContext';
 import { ITransaction } from '@/model/Transaction';
 import { useState, useEffect, useContext, useCallback } from 'react';
 import LastTransactionsItems from './LastTransactionsItems';

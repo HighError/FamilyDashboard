@@ -1,29 +1,10 @@
-import { UserContext } from '@/context/UserContext';
+import { UserContext } from '@/contexts/UserContext';
 import { ITransaction } from '@/model/Transaction';
 import { useContext, useEffect, useState } from 'react';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { GetForamtedDataAndTime } from '@/utils/date';
 import { ConvertTransactionSuma } from '@/utils/money';
-import { getSession, GetSessionParams } from 'next-auth/react';
-
-export async function getServerSideProps(
-  context: GetSessionParams | undefined
-) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { session },
-  };
-}
 
 function Transactions() {
   const [sorting, setSorting] = useState(1);

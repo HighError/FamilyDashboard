@@ -1,10 +1,10 @@
-import { UserContext } from '@/context/UserContext';
+import { UserContext } from '@/contexts/UserContext';
 import { ModalType } from '@/types/Modal';
 import ShowErrorMessage from '@/utils/errorCode';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import React, { Dispatch, SetStateAction, useContext } from 'react';
 import { toast } from 'react-toastify';
+import { mutate } from 'swr';
 import BaseModal from '../BaseModal';
 
 interface IProps {
@@ -20,14 +20,19 @@ function TelegramUnlinkModal({
   isLoading,
   setIsLoading,
 }: IProps) {
-  const { user, updateUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   async function unlink() {
     try {
       setIsLoading(true);
       await axios.delete('/api/user/telegram');
       toast.success("Телеграм успішно відв'язано.");
-      await updateUser();
+      await mutate('/api/user');
+      setIsLoading(false);
+      setIsOpen({
+        modal: null,
+        data: null,
+      });
     } catch (err) {
       setIsLoading(false);
       ShowErrorMessage(err);

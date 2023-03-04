@@ -7,7 +7,8 @@ import React, { Dispatch, SetStateAction, useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import BaseModal from '../BaseModal';
 import isURL from 'validator/lib/isURL';
-import { UserContext } from '@/context/UserContext';
+import { UserContext } from '@/contexts/UserContext';
+import { mutate } from 'swr';
 
 interface IProps {
   isOpen: boolean;
@@ -49,7 +50,7 @@ function EditPaymentLink({
         toast.success('Посилання для оплати успішно змінено');
 
         if (user?._id === userContext.user?._id) {
-          await userContext.updateUser();
+          await mutate('/api/user');
         }
 
         await updateData();
