@@ -26,7 +26,7 @@ To run this project, you will need to add the following environment variables to
 
 `NEXT_PUBLIC_TELEGRAM_URL` - Link to Telegram bot
 
-`API_KEY_ID` - API key for ID system
+`NEXT_PUBLIC_API_KEY_ID` - API key for ID system
 
 `NEXT_PUBLIC_ID_URL` - Url ID system
 

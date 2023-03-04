@@ -1,19 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import md5 from 'md5';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 interface IProps {
   id: string;
-  name: string;
-  email: string;
   isLoading: boolean;
 }
 
-function User({ id, name, email, isLoading }: IProps) {
+function User({ id, isLoading }: IProps) {
   const route = useRouter();
+  const [email, setEmail] = useState();
+  const [username, setUsername] = useState();
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_ID_URL ?? ''}/api/user/${id}`, {
+        headers: {
+          Authorization: `${process.env.NEXT_PUBLIC_API_KEY_ID}`,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        setEmail(res.data.email);
+        setUsername(res.data.username);
+      })
+      .catch(() => {
+        toast.error(`Помилка завантаження користувача ${id}`);
+      });
+  }, []);
+
   return (
     <div className="bg-gray-200 rounded-lg flex flex-row items-center justify-between px-3 py-2 gap-2">
       <div className="flex items-center gap-2 overflow-hidden">
@@ -28,7 +48,7 @@ function User({ id, name, email, isLoading }: IProps) {
           <div className="text-gray-400 text-[10px] tablet:text-xs truncate">
             {id}
           </div>
-          <h2 className="text-lg tablet:text-xl truncate">{name}</h2>
+          <h2 className="text-lg tablet:text-xl truncate">{username}</h2>
           <div className="text-gray-400 text-[10px] tablet:text-xs truncate">
             {email}
           </div>

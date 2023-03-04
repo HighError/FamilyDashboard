@@ -27,10 +27,8 @@ function AdminUsers() {
     <div className="grid grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-3 gap-3">
       {data.map((e) => (
         <AdminUser
-          key={e.id}
-          id={e.id}
-          name={e.username}
-          email={e.email}
+          key={e._id.toString()}
+          id={e._id.toString()}
           isLoading={isLoading}
         />
       ))}
